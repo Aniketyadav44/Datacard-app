@@ -16,6 +16,8 @@ class DocumentController extends GetxController {
   RxString uploadFileName = "".obs;
   RxString uploadFileSize = "".obs;
 
+  var uploadingMessage = "".obs;
+
   late String fileType;
   var isTextFileTypeSelected = false.obs;
   var isImageFileTypeSelected = false.obs;
@@ -113,7 +115,8 @@ class DocumentController extends GetxController {
         snackPosition: SnackPosition.BOTTOM,
       );
     } else {
-      DocumentProvider documentProvider = Get.find<DocumentProvider>();
+      DocumentProvider documentProvider = DocumentProvider();
+      loading.value = true;
       documentProvider.uploadDocument(
         name: nameController.text,
         description: descriptionController.text,

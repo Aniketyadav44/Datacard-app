@@ -30,7 +30,17 @@ class AddDocumentView extends GetView {
                               const SizedBox(
                                 height: 40,
                               ),
-                              const CircularProgressIndicator(),
+                              CircularProgressIndicator(),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              Text(
+                                documentController.uploadingMessage.value,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
+                              )
                             ],
                           ),
                         ),

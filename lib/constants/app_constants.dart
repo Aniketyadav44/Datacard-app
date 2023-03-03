@@ -22,6 +22,11 @@ class AppConstants {
   static String protocol = "";
   static String apiKey = "";
 
+  static const String uploadFilePath = '/api/upload/file';
+  static const String requestFilePath = '/api/request/file';
+  static const String requestDataCardPath = '/api/request/data-card';
+  static const String decryptCIDPath = '/api/request/decrypt';
+
   static BoxDecoration customBoxDecoration = BoxDecoration(
     color: ColorConstants.darkBackgroundColor,
     border: Border.all(
