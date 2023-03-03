@@ -1,5 +1,13 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:datacard/app/modules/home/controllers/home_controller.dart';
+import 'package:datacard/app/modules/update/controllers/update_controller.dart';
+import 'package:datacard/app/routes/app_pages.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../models/user_model.dart' as userModel;
 
 class UserProvider {
@@ -10,5 +18,52 @@ class UserProvider {
     DocumentSnapshot user =
         await FirebaseFirestore.instance.collection("users").doc(uid).get();
     return userModel.User.fromJson(user.data() as Map<String, dynamic>);
+  }
+
+  updateUser() async {
+    UpdateController updateController = Get.find<UpdateController>();
+    HomeController homeController = Get.find<HomeController>();
+    FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    updateController.loading.value = true;
+    String imageLink = updateController.imageLink;
+    if (updateController.imageSelected.value) {
+      final path = 'user-profiles/${updateController.image.value.name}';
+      final file = File(updateController.image.value.path);
+
+      final ref = FirebaseStorage.instance.ref().child(path);
+      UploadTask uploadTask = ref.putFile(file);
+
+      final snapshot = await uploadTask.whenComplete(() => null);
+
+      final url = await snapshot.ref.getDownloadURL();
+      imageLink = url;
+    }
+    User user = firebaseAuth.currentUser!;
+    user.updateDisplayName(updateController.nameController.text);
+    user.updateEmail(updateController.emailController.text);
+    user.updatePhotoURL(imageLink);
+
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    var updateData = {
+      "name": updateController.nameController.text,
+      "email": updateController.emailController.text,
+      "aadharNumber": updateController.aadharController.text,
+      "photoUrl": imageLink,
+    };
+    await firebaseFirestore
+        .collection("users")
+        .doc(user.uid)
+        .update(updateData);
+
+    homeController.fetchUser();
+
+    Get.snackbar(
+      "Updated",
+      "Your account has been updated successfully",
+      colorText: Colors.white,
+      snackPosition: SnackPosition.BOTTOM,
+    );
+    updateController.loading.value = false;
+    Get.offAllNamed(Routes.HOME);
   }
 }
