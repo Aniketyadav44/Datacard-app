@@ -1,4 +1,6 @@
+import 'package:datacard/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../../constants/app_constants.dart';
 import '../../../widgets/custom_list_tile.dart';
@@ -28,7 +30,7 @@ class MyDataView extends StatelessWidget {
               icon: Icons.insert_drive_file,
               text: "My Documents",
               onPressed: () {
-                // Get.to(() => MyDocumentsScreen());
+                Get.toNamed(Routes.DOCUMENT);
               },
             ),
             const SizedBox(

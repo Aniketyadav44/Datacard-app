@@ -17,6 +17,11 @@ class AppConstants {
   static const profileImage =
       'https://firebasestorage.googleapis.com/v0/b/data-card-dd8ce.appspot.com/o/profile_avatar.png?alt=media&token=a09feeb0-e77d-4dc2-a310-fbdfda84e71d';
 
+  static String domain = "";
+  static String port = "";
+  static String protocol = "";
+  static String apiKey = "";
+
   static BoxDecoration customBoxDecoration = BoxDecoration(
     color: ColorConstants.darkBackgroundColor,
     border: Border.all(

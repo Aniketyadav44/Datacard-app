@@ -11,6 +11,7 @@ class LoginController extends GetxController {
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController aadharNoController = TextEditingController();
+  TextEditingController keyController = TextEditingController();
   final registerFormKey = GlobalKey<FormState>();
   var showPass = false.obs;
   var loading = false.obs;
@@ -43,7 +44,8 @@ class LoginController extends GetxController {
   register() {
     if (nameController.text.isEmpty ||
         emailController.text.isEmpty ||
-        aadharNoController.text.isEmpty) {
+        aadharNoController.text.isEmpty ||
+        keyController.text.isEmpty) {
       Get.snackbar(
         "Required",
         "All the fields are required!",
@@ -61,6 +63,13 @@ class LoginController extends GetxController {
       Get.snackbar(
         "Invalid Aadhar No.",
         "Please enter a valid aadhar number!",
+        colorText: Colors.white,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    } else if (keyController.text.length != 4) {
+      Get.snackbar(
+        "Invalid Key",
+        "Please enter a valid security key of atleast 4 digit!",
         colorText: Colors.white,
         snackPosition: SnackPosition.BOTTOM,
       );
@@ -99,6 +108,7 @@ class LoginController extends GetxController {
         snackPosition: SnackPosition.BOTTOM,
       );
     } else {
+      loading.value = true;
       authProvider.verifyOTP(otpController.text, context);
     }
   }

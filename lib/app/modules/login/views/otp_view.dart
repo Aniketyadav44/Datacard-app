@@ -7,6 +7,7 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../../../../constants/app_constants.dart';
 import '../../../widgets/custom_button.dart';
+import '../../../widgets/logo.dart';
 
 class OtpView extends GetView {
   LoginController loginController = Get.find<LoginController>();
@@ -59,84 +60,101 @@ class OtpView extends GetView {
                         ],
                       ),
                     )
-                  : Column(
-                      children: [
-                        const SizedBox(
-                          height: 40,
-                        ),
-                        Image.asset(AppConstants.otpOpenImg),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        const Text(
-                          "OTP Verification",
-                          style: TextStyle(
-                            fontSize: 30,
-                            color: ColorConstants.secondaryColor,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: Get.width * 0.1,
-                          ),
-                          child: const Text(
-                            "Enter the one-time password sent to your number",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 15,
-                              color: Colors.white,
+                  : loginController.loading.value
+                      ? Container(
+                          height: Get.height,
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Logo(),
+                                const SizedBox(
+                                  height: 40,
+                                ),
+                                const CircularProgressIndicator(),
+                              ],
                             ),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 40,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 30),
-                          child: PinCodeTextField(
-                            appContext: context,
-                            length: 6,
-                            onChanged: (String value) {},
-                            pastedTextStyle: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
+                        )
+                      : Column(
+                          children: [
+                            const SizedBox(
+                              height: 40,
                             ),
-                            pinTheme: PinTheme(
-                              shape: PinCodeFieldShape.underline,
-                              borderRadius: BorderRadius.circular(50),
-                              fieldOuterPadding: EdgeInsets.symmetric(
-                                  horizontal: Get.width * 0.009),
-                              borderWidth: 4,
-                              fieldHeight: 50,
-                              fieldWidth: 40,
-                              activeColor: Colors.white,
-                              selectedColor: ColorConstants.secondaryColor,
-                              inactiveColor: ColorConstants.secondaryColor,
+                            Image.asset(AppConstants.otpOpenImg),
+                            const SizedBox(
+                              height: 20,
                             ),
-                            showCursor: false,
-                            controller: loginController.otpController,
-                            keyboardType: TextInputType.number,
-                            animationType: AnimationType.none,
-                          ),
+                            const Text(
+                              "OTP Verification",
+                              style: TextStyle(
+                                fontSize: 30,
+                                color: ColorConstants.secondaryColor,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: Get.width * 0.1,
+                              ),
+                              child: const Text(
+                                "Enter the one-time password sent to your number",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 40,
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 30),
+                              child: PinCodeTextField(
+                                appContext: context,
+                                length: 6,
+                                onChanged: (String value) {},
+                                pastedTextStyle: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                pinTheme: PinTheme(
+                                  shape: PinCodeFieldShape.underline,
+                                  borderRadius: BorderRadius.circular(50),
+                                  fieldOuterPadding: EdgeInsets.symmetric(
+                                      horizontal: Get.width * 0.009),
+                                  borderWidth: 4,
+                                  fieldHeight: 50,
+                                  fieldWidth: 40,
+                                  activeColor: Colors.white,
+                                  selectedColor: ColorConstants.secondaryColor,
+                                  inactiveColor: ColorConstants.secondaryColor,
+                                ),
+                                showCursor: false,
+                                controller: loginController.otpController,
+                                keyboardType: TextInputType.number,
+                                animationType: AnimationType.none,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            CustomButton(
+                              onPressed: () {
+                                loginController.verifyOTP(context);
+                              },
+                              text: "Verify",
+                            ),
+                            const SizedBox(
+                              height: 30,
+                            ),
+                          ],
                         ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        CustomButton(
-                          onPressed: () {
-                            loginController.verifyOTP(context);
-                          },
-                          text: "Verify",
-                        ),
-                        const SizedBox(
-                          height: 30,
-                        ),
-                      ],
-                    ),
             ),
           );
         }),

@@ -98,6 +98,37 @@ class RegisterView extends GetView {
                                 hintText: 'Aadhar Number',
                                 controller: loginController.aadharNoController,
                               ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20.0),
+                                child: Tooltip(
+                                  triggerMode: TooltipTriggerMode.tap,
+                                  showDuration: Duration(seconds: 4),
+                                  message:
+                                      "Enter a security key of atleast 4 digit to access all the features of this app.",
+                                  child: Row(
+                                    children: [
+                                      Text("Enter a security key"),
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      Icon(
+                                        Icons.info,
+                                        color: Colors.white,
+                                        size: 20,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              CustomTextField(
+                                hintText: 'Security Key',
+                                controller: loginController.keyController,
+                                keyboardType: TextInputType.number,
+                              ),
                             ],
                           ),
                         ),

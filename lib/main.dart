@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import 'app/routes/app_pages.dart';
 import 'constants/color_constants.dart';
@@ -10,6 +11,8 @@ import 'constants/color_constants.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await Hive.initFlutter();
+  await Hive.openBox('local');
   runApp(MyApp());
 }
 

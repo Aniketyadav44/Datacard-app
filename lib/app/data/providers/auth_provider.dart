@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:datacard/app/data/local_storage.dart';
 import 'package:datacard/app/data/models/user_model.dart' as userModel;
 import 'package:datacard/app/modules/login/controllers/login_controller.dart';
 import 'package:datacard/app/modules/login/views/register_view.dart';
@@ -33,6 +34,7 @@ class AuthProvider {
           snackPosition: SnackPosition.BOTTOM,
           colorText: Colors.white,
         );
+        loginController.loading.value = false;
       }
       return Future.error(error);
     });
@@ -45,6 +47,8 @@ class AuthProvider {
     if (!userDoc.exists) {
       Get.off(() => RegisterView());
     } else {
+      var data = userDoc.data() as Map<String, dynamic>;
+      LocalStorage().setKey(data['key']);
       Get.offAllNamed(Routes.HOME);
     }
   }
@@ -72,16 +76,17 @@ class AuthProvider {
 
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     userModel.User newUser = userModel.User(
-      name: loginController.nameController.text,
-      email: loginController.emailController.text,
-      phone: loginController.phoneController.text,
-      aadharNumber: loginController.aadharNoController.text,
-      photoUrl: imageLink,
-      uid: user.uid,
-      isVerified: false,
-      mostUsed: [],
-      recentlyViewed: [],
-    );
+        name: loginController.nameController.text,
+        email: loginController.emailController.text,
+        phone: loginController.phoneController.text,
+        aadharNumber: loginController.aadharNoController.text,
+        photoUrl: imageLink,
+        uid: user.uid,
+        key: loginController.keyController.text,
+        isVerified: false,
+        mostUsed: [],
+        recentlyViewed: [],
+        files: []);
     await firebaseFirestore
         .collection("users")
         .doc(user.uid)

@@ -8,8 +8,10 @@ class User {
   final String photoUrl;
   final String uid;
   final bool isVerified;
+  final String key;
   final List<String> mostUsed;
   final List<String> recentlyViewed;
+  final List<String> files;
 
   User({
     required this.name,
@@ -21,6 +23,8 @@ class User {
     required this.isVerified,
     required this.mostUsed,
     required this.recentlyViewed,
+    required this.files,
+    required this.key,
   });
 
   static User fromJson(Map<String, dynamic> json) {
@@ -34,6 +38,8 @@ class User {
       isVerified: json['isVerified'],
       mostUsed: json['mostUsed'].cast<String>(),
       recentlyViewed: json['recentlyViewed'].cast<String>(),
+      files: json['files'].cast<String>(),
+      key: json['key'],
     );
   }
 
@@ -48,6 +54,8 @@ class User {
       'isVerified': isVerified,
       'mostUsed': mostUsed,
       'recentlyViewed': recentlyViewed,
+      'files': files,
+      'key': key,
     };
   }
 
@@ -60,8 +68,10 @@ class User {
       photoUrl: AppConstants.profileImage,
       uid: '',
       isVerified: false,
+      key: '',
       mostUsed: [],
       recentlyViewed: [],
+      files: [],
     );
   }
 }
