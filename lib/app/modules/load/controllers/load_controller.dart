@@ -26,7 +26,7 @@ class LoadController extends GetxController {
       if (!userDoc.exists) {
         Get.off(() => RegisterView(), binding: LoginBinding());
       } else {
-        Get.offAllNamed(Routes.LOCK);
+        Get.offAllNamed(Routes.LOCK, arguments: [Routes.HOME]);
       }
     } else {
       Get.offAndToNamed(Routes.LOGIN);

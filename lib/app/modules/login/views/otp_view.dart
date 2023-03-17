@@ -126,8 +126,6 @@ class OtpView extends GetView {
                                 pinTheme: PinTheme(
                                   shape: PinCodeFieldShape.underline,
                                   borderRadius: BorderRadius.circular(50),
-                                  fieldOuterPadding: EdgeInsets.symmetric(
-                                      horizontal: Get.width * 0.009),
                                   borderWidth: 4,
                                   fieldHeight: 50,
                                   fieldWidth: 40,

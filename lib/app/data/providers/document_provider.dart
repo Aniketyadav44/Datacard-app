@@ -8,6 +8,7 @@ import 'package:datacard/app/modules/home/controllers/home_controller.dart';
 import 'package:datacard/constants/app_constants.dart';
 import 'package:dio/dio.dart' as dioo;
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -86,5 +87,38 @@ class DocumentProvider {
       colorText: Colors.white,
       snackPosition: SnackPosition.BOTTOM,
     );
+  }
+
+  //decrypting cid
+  Future<String> getDocumentCID(String encCID) async {
+    try {
+      link =
+          "${AppConstants.protocol}://${AppConstants.domain}:${AppConstants.port}${AppConstants.decryptCIDPath}";
+      dio.options.headers["x-api-key"] = AppConstants.apiKey;
+      final response = await dio.post(
+        link,
+        data: {"secretKey": LocalStorage().getKey(), "encrypted": encCID},
+      );
+
+      final CID = response.data["CID"];
+
+      return CID;
+    } catch (e) {
+      print(e);
+    }
+    return "";
+  }
+
+  Future getTextDocument(String cid) async {
+    final response = await dio.get("https://ipfs.io/ipfs/$cid");
+    return response.data;
+  }
+
+  Future getPDFDocument(String cid) async {
+    final url = "https://ipfs.io/ipfs/$cid";
+    var request = await HttpClient().getUrl(Uri.parse(url));
+    var response = await request.close();
+    var bytes = await consolidateHttpClientResponseBytes(response);
+    return bytes;
   }
 }

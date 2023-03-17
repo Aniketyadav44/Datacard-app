@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:datacard/app/data/providers/document_provider.dart';
+import 'package:datacard/app/routes/app_pages.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -128,6 +129,10 @@ class DocumentController extends GetxController {
         document: uploadFile.value,
       );
     }
+  }
+
+  void viewDocument(String uid) async {
+    Get.toNamed(Routes.LOCK, arguments: [Routes.FILE, uid]);
   }
 
   @override

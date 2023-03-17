@@ -75,7 +75,7 @@ class LockView extends GetView<LockController> {
                                 shape: PinCodeFieldShape.underline,
                                 borderRadius: BorderRadius.circular(50),
                                 fieldOuterPadding: EdgeInsets.symmetric(
-                                    horizontal: Get.width * 0.04),
+                                    horizontal: Get.width * 0.03),
                                 borderWidth: 4,
                                 fieldHeight: 50,
                                 fieldWidth: 40,

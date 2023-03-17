@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 
 import 'package:datacard/app/modules/document/bindings/document_binding.dart';
 import 'package:datacard/app/modules/document/views/document_view.dart';
+import 'package:datacard/app/modules/file/bindings/file_binding.dart';
+import 'package:datacard/app/modules/file/views/file_view.dart';
 import 'package:datacard/app/modules/home/bindings/home_binding.dart';
 import 'package:datacard/app/modules/home/views/home_view.dart';
 import 'package:datacard/app/modules/load/bindings/load_binding.dart';
@@ -50,6 +52,11 @@ class AppPages {
       name: _Paths.LOCK,
       page: () => LockView(),
       binding: LockBinding(),
+    ),
+    GetPage(
+      name: _Paths.FILE,
+      page: () => FileView(),
+      binding: FileBinding(),
     ),
   ];
 }

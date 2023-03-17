@@ -10,6 +10,7 @@ abstract class Routes {
   static const UPDATE = _Paths.UPDATE;
   static const DOCUMENT = _Paths.DOCUMENT;
   static const LOCK = _Paths.LOCK;
+  static const FILE = _Paths.FILE;
 }
 
 abstract class _Paths {
@@ -19,4 +20,5 @@ abstract class _Paths {
   static const UPDATE = '/update';
   static const DOCUMENT = '/document';
   static const LOCK = '/lock';
+  static const FILE = '/file';
 }

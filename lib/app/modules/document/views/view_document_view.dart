@@ -1,4 +1,5 @@
 import 'package:datacard/app/data/models/document_model.dart';
+import 'package:datacard/app/modules/document/controllers/document_controller.dart';
 import 'package:datacard/app/widgets/custom_button.dart';
 import 'package:datacard/constants/app_constants.dart';
 import 'package:datacard/constants/color_constants.dart';
@@ -7,7 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-class ViewDocumentView extends GetView {
+class ViewDocumentView extends GetView<DocumentController> {
+  DocumentController documentController = Get.find<DocumentController>();
   @override
   Widget build(BuildContext context) {
     Document? document = Get.arguments[0];
@@ -43,7 +45,11 @@ class ViewDocumentView extends GetView {
             const SizedBox(
               height: 30,
             ),
-            CustomButton(onPressed: () {}, text: "Open Document"),
+            CustomButton(
+                onPressed: () {
+                  documentController.viewDocument(document.uid);
+                },
+                text: "Open Document"),
             const SizedBox(
               height: 30,
             ),

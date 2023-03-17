@@ -25,7 +25,9 @@ class LockController extends GetxController {
       loading.value = false;
     } else {
       loading.value = false;
-      Get.offAllNamed(Routes.HOME);
+      final destRoute = Get.arguments[0];
+      final uid = destRoute != Routes.HOME ? Get.arguments[1] : "";
+      Get.offAllNamed(destRoute, arguments: [uid]);
     }
   }
 
