@@ -8,6 +8,7 @@ class ColorConstants {
 
   static const darkBackgroundColor = Color.fromRGBO(20, 24, 27, 1);
   static const borderColor = Color.fromRGBO(123, 133, 143, 1);
+  static const backTintColor = Color.fromRGBO(217, 217, 217, 1);
 
   static const textColor = Colors.white;
   static const secondaryTextColor = Color.fromRGBO(123, 133, 143, 1);

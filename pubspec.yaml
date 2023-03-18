@@ -25,6 +25,7 @@ dependencies:
   flutter_pdfview: ^1.2.9
   http: ^0.13.5
   path_provider: ^2.0.13
+  qr_flutter: ^4.0.0
 
 dev_dependencies:
   flutter_lints: ^2.0.0

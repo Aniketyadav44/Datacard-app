@@ -53,13 +53,30 @@ class DatacardTile extends StatelessWidget {
             //     ),
             //   ),
             // ),
-            Text(
-              datacard.name,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-              ),
-              overflow: TextOverflow.ellipsis,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  datacard.name,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "No. of docs: ${datacard.files.length}",
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                    color: ColorConstants.borderColor,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
             ),
             if (detailed)
               Expanded(

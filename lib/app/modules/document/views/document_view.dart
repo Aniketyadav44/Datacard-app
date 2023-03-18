@@ -1,6 +1,7 @@
 import 'package:datacard/app/modules/document/views/add_document_view.dart';
 import 'package:datacard/app/modules/document/views/view_document_view.dart';
 import 'package:datacard/app/modules/home/controllers/home_controller.dart';
+import 'package:datacard/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -54,7 +55,10 @@ class DocumentView extends GetView<DocumentController> {
                               homeController.userDocuments.value[index];
                           return DocumentTile(
                             document: doc,
-                            onShareTap: () {},
+                            onShareTap: () {
+                              Get.toNamed(Routes.SHARE,
+                                  arguments: ["doc", doc]);
+                            },
                             onEditTap: () {},
                             onTap: () {
                               Get.to(ViewDocumentView(), arguments: [doc]);

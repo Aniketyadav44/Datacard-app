@@ -14,6 +14,8 @@ import 'package:datacard/app/modules/lock/bindings/lock_binding.dart';
 import 'package:datacard/app/modules/lock/views/lock_view.dart';
 import 'package:datacard/app/modules/login/bindings/login_binding.dart';
 import 'package:datacard/app/modules/login/views/login_view.dart';
+import 'package:datacard/app/modules/share/bindings/share_binding.dart';
+import 'package:datacard/app/modules/share/views/share_view.dart';
 import 'package:datacard/app/modules/update/bindings/update_binding.dart';
 import 'package:datacard/app/modules/update/views/update_view.dart';
 
@@ -64,6 +66,11 @@ class AppPages {
       name: _Paths.DATACARD,
       page: () => DatacardView(),
       binding: DatacardBinding(),
+    ),
+    GetPage(
+      name: _Paths.SHARE,
+      page: () => ShareView(),
+      binding: ShareBinding(),
     ),
   ];
 }

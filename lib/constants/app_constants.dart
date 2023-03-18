@@ -12,6 +12,7 @@ class AppConstants {
   static const otpLock = 'assets/images/icon-lock.png';
   static const profileAvatar = 'assets/images/profile-avatar.png';
   static const logoPurple = 'assets/icons/datacard-logo-purple.svg';
+  static const logoPurplePng = 'assets/icons/datacard-logo-purple.png';
   static const logoBlack = 'assets/icons/datacard-logo-black.svg';
 
   static const profileImage =

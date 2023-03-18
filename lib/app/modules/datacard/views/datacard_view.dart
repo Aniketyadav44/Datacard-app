@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 
 import '../../../../constants/app_constants.dart';
 import '../../../../constants/color_constants.dart';
+import '../../../routes/app_pages.dart';
 import '../../../widgets/custom_floating_button.dart';
 import '../controllers/datacard_controller.dart';
 
@@ -56,7 +57,9 @@ class DatacardView extends GetView<DatacardController> {
                           return DatacardTile(
                             datacard: dc,
                             onEditTap: () {},
-                            onShareTap: () {},
+                            onShareTap: () {
+                              Get.toNamed(Routes.SHARE, arguments: ["dc", dc]);
+                            },
                             onTap: () {
                               datacardController
                                   .fetchDatacardDocuments(dc.files);
