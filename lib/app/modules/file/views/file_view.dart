@@ -58,6 +58,7 @@ class FileView extends GetView<FileController> {
                                   filePath: fileController.fileLoc.value,
                                   enableSwipe: true,
                                   autoSpacing: false,
+                                  swipeHorizontal: false,
                                   pageFling: true,
                                   pageSnap: true,
                                 ),

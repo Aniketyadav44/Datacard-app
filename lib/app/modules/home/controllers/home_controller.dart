@@ -12,6 +12,7 @@ class HomeController extends GetxController {
   final count = 0.obs;
   Rx<User> user = User.initialize().obs;
   RxList userDocuments = [].obs;
+  RxList userDatacards = [].obs;
   @override
   void onInit() {
     super.onInit();
@@ -22,6 +23,7 @@ class HomeController extends GetxController {
     UserProvider userProvider = UserProvider();
     user.value = await userProvider.fetchUser();
     userDocuments.value = await userProvider.fetchUserDocuments();
+    userDatacards.value = await userProvider.fetchUserDatacards();
   }
 
   @override

@@ -40,7 +40,7 @@ class MyDataView extends StatelessWidget {
               icon: Icons.folder,
               text: "My Data Cards",
               onPressed: () {
-                // Get.to(() => DataCardsScreen());
+                Get.toNamed(Routes.DATACARD);
               },
             ),
             const SizedBox(

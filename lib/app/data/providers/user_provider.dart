@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:datacard/app/data/models/datacard_model.dart';
 import 'package:datacard/app/modules/home/controllers/home_controller.dart';
 import 'package:datacard/app/modules/update/controllers/update_controller.dart';
 import '../models/document_model.dart' as docModel;
@@ -34,6 +35,20 @@ class UserProvider {
           .add(docModel.Document.fromJson(doc.data() as Map<String, dynamic>));
     }
     return docList;
+  }
+
+  //get user's datacards
+  Future<List<Datacard>> fetchUserDatacards() async {
+    HomeController homeController = Get.find<HomeController>();
+    List<Datacard> datacardList = [];
+    for (var dcUID in homeController.user.value.datacards) {
+      DocumentSnapshot dc = await FirebaseFirestore.instance
+          .collection("datacards")
+          .doc(dcUID)
+          .get();
+      datacardList.add(Datacard.fromJson(dc.data() as Map<String, dynamic>));
+    }
+    return datacardList;
   }
 
   updateUser() async {

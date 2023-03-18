@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import 'package:datacard/app/modules/datacard/bindings/datacard_binding.dart';
+import 'package:datacard/app/modules/datacard/views/datacard_view.dart';
 import 'package:datacard/app/modules/document/bindings/document_binding.dart';
 import 'package:datacard/app/modules/document/views/document_view.dart';
 import 'package:datacard/app/modules/file/bindings/file_binding.dart';
@@ -57,6 +59,11 @@ class AppPages {
       name: _Paths.FILE,
       page: () => FileView(),
       binding: FileBinding(),
+    ),
+    GetPage(
+      name: _Paths.DATACARD,
+      page: () => DatacardView(),
+      binding: DatacardBinding(),
     ),
   ];
 }

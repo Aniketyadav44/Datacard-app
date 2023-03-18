@@ -12,6 +12,7 @@ class User {
   final List<String> mostUsed;
   final List<String> recentlyViewed;
   final List<String> files;
+  final List<String> datacards;
 
   User({
     required this.name,
@@ -24,6 +25,7 @@ class User {
     required this.mostUsed,
     required this.recentlyViewed,
     required this.files,
+    required this.datacards,
     required this.key,
   });
 
@@ -39,6 +41,7 @@ class User {
       mostUsed: json['mostUsed'].cast<String>(),
       recentlyViewed: json['recentlyViewed'].cast<String>(),
       files: json['files'].cast<String>(),
+      datacards: json['datacards'].cast<String>(),
       key: json['key'],
     );
   }
@@ -55,6 +58,7 @@ class User {
       'mostUsed': mostUsed,
       'recentlyViewed': recentlyViewed,
       'files': files,
+      'datacards': datacards,
       'key': key,
     };
   }
@@ -72,6 +76,7 @@ class User {
       mostUsed: [],
       recentlyViewed: [],
       files: [],
+      datacards: [],
     );
   }
 }

@@ -11,6 +11,7 @@ abstract class Routes {
   static const DOCUMENT = _Paths.DOCUMENT;
   static const LOCK = _Paths.LOCK;
   static const FILE = _Paths.FILE;
+  static const DATACARD = _Paths.DATACARD;
 }
 
 abstract class _Paths {
@@ -21,4 +22,5 @@ abstract class _Paths {
   static const DOCUMENT = '/document';
   static const LOCK = '/lock';
   static const FILE = '/file';
+  static const DATACARD = '/datacard';
 }

@@ -76,17 +76,19 @@ class AuthProvider {
 
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     userModel.User newUser = userModel.User(
-        name: loginController.nameController.text,
-        email: loginController.emailController.text,
-        phone: loginController.phoneController.text,
-        aadharNumber: loginController.aadharNoController.text,
-        photoUrl: imageLink,
-        uid: user.uid,
-        key: loginController.keyController.text,
-        isVerified: false,
-        mostUsed: [],
-        recentlyViewed: [],
-        files: []);
+      name: loginController.nameController.text,
+      email: loginController.emailController.text,
+      phone: loginController.phoneController.text,
+      aadharNumber: loginController.aadharNoController.text,
+      photoUrl: imageLink,
+      uid: user.uid,
+      key: loginController.keyController.text,
+      isVerified: false,
+      mostUsed: [],
+      recentlyViewed: [],
+      files: [],
+      datacards: [],
+    );
     await firebaseFirestore
         .collection("users")
         .doc(user.uid)

@@ -109,6 +109,12 @@ class DocumentProvider {
     return "";
   }
 
+  Future<Map<String, dynamic>> getDocument(String uid) async {
+    DocumentSnapshot docSnapshot =
+        await FirebaseFirestore.instance.collection("files").doc(uid).get();
+    return docSnapshot.data() as Map<String, dynamic>;
+  }
+
   Future getTextDocument(String cid) async {
     final response = await dio.get("https://ipfs.io/ipfs/$cid");
     return response.data;
