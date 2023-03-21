@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:datacard/app/modules/login/bindings/login_binding.dart';
 import 'package:datacard/constants/app_constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 
 import '../../../routes/app_pages.dart';
@@ -12,7 +13,9 @@ class LoadController extends GetxController {
   void onInit() {
     super.onInit();
     checkUser();
+    requestPermission();
     fetchConfig();
+    saveToken();
   }
 
   //check for user's authorization
@@ -47,6 +50,40 @@ class LoadController extends GetxController {
         await firebaseFirestore.collection("config").doc("server").get();
     var serverData = serverDoc.data() as Map<String, dynamic>;
     AppConstants.apiKey = serverData["api-key"];
+    AppConstants.fcmKey = serverData["fcm-key"];
+  }
+
+  //get notification permission
+  requestPermission() async {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+    NotificationSettings settings = await messaging.requestPermission(
+      alert: true,
+      announcement: true,
+      badge: true,
+      carPlay: true,
+      criticalAlert: true,
+      sound: true,
+    );
+
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      print('User granted permission');
+    } else if (settings.authorizationStatus ==
+        AuthorizationStatus.provisional) {
+      print('User granted provisional permission');
+    } else {
+      print('User declined or has not accepted permission');
+    }
+  }
+
+  //get the user's token and save to firestore
+  saveToken() async {
+    await FirebaseMessaging.instance.getToken().then((token) async {
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .update({'token': token!});
+    });
   }
 
   @override

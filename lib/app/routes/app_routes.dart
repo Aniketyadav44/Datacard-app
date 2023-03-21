@@ -13,6 +13,8 @@ abstract class Routes {
   static const FILE = _Paths.FILE;
   static const DATACARD = _Paths.DATACARD;
   static const SHARE = _Paths.SHARE;
+  static const RECEIVE = _Paths.RECEIVE;
+  static const GET_ACCESS = _Paths.GET_ACCESS;
 }
 
 abstract class _Paths {
@@ -25,4 +27,6 @@ abstract class _Paths {
   static const FILE = '/file';
   static const DATACARD = '/datacard';
   static const SHARE = '/share';
+  static const RECEIVE = '/receive';
+  static const GET_ACCESS = '/get-access';
 }

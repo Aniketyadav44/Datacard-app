@@ -26,7 +26,8 @@ class ShareController extends GetxController {
     type = Get.arguments[0];
     data = Get.arguments[1];
     secretKey = LocalStorage().getKey();
-    var link = "${type}/${data.uid}/${secretKey}";
+    //type of document.. file's uid.. user's secret key
+    var link = "${type}.${data.uid}.${secretKey}";
     encodedLink.value = utf8.encode(link).toString();
     loading(false);
     print(link);

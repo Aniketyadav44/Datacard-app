@@ -1,4 +1,5 @@
 import 'package:datacard/app/data/models/user_model.dart';
+import 'package:datacard/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -38,6 +39,10 @@ class UserHomeView extends StatelessWidget {
                   Container(
                     decoration: BoxDecoration(
                       color: Colors.grey,
+                      border: Border.all(
+                        color: Colors.white,
+                        width: 2,
+                      ),
                       borderRadius: BorderRadius.circular(
                         50,
                       ),
@@ -53,7 +58,7 @@ class UserHomeView extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    width: width * 0.49,
+                    width: width * 0.46,
                     padding: const EdgeInsets.symmetric(horizontal: 15.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -177,7 +182,9 @@ class UserHomeView extends StatelessWidget {
       ),
       floatingActionButton: CustomFloatingButton(
         icon: Icons.camera_alt,
-        onPressed: () {},
+        onPressed: () {
+          Get.toNamed(Routes.RECEIVE);
+        },
       ),
     );
   }

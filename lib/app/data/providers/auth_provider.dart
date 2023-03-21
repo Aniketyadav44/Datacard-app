@@ -8,6 +8,7 @@ import 'package:datacard/app/modules/login/views/register_view.dart';
 import 'package:datacard/app/routes/app_pages.dart';
 import 'package:datacard/constants/app_constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -45,10 +46,12 @@ class AuthProvider {
         .doc(user.user!.uid.toString())
         .get();
     if (!userDoc.exists) {
+      loginController.loading.value = false;
       Get.off(() => RegisterView());
     } else {
       var data = userDoc.data() as Map<String, dynamic>;
       LocalStorage().setKey(data['key']);
+      loginController.loading.value = false;
       Get.offAllNamed(Routes.HOME);
     }
   }
@@ -75,6 +78,10 @@ class AuthProvider {
     user.updatePhotoURL(imageLink);
 
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    String mtoken = "";
+    await FirebaseMessaging.instance.getToken().then((token) {
+      mtoken = token!;
+    });
     userModel.User newUser = userModel.User(
       name: loginController.nameController.text,
       email: loginController.emailController.text,
@@ -88,12 +95,14 @@ class AuthProvider {
       recentlyViewed: [],
       files: [],
       datacards: [],
+      token: mtoken,
     );
     await firebaseFirestore
         .collection("users")
         .doc(user.uid)
         .set(newUser.toJson());
     Get.offAllNamed(Routes.HOME);
+    LocalStorage().setKey(loginController.keyController.text);
     loginController.loading.value = false;
   }
 

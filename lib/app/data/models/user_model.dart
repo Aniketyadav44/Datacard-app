@@ -9,6 +9,7 @@ class User {
   final String uid;
   final bool isVerified;
   final String key;
+  final String token;
   final List<String> mostUsed;
   final List<String> recentlyViewed;
   final List<String> files;
@@ -24,6 +25,7 @@ class User {
     required this.isVerified,
     required this.mostUsed,
     required this.recentlyViewed,
+    required this.token,
     required this.files,
     required this.datacards,
     required this.key,
@@ -43,6 +45,7 @@ class User {
       files: json['files'].cast<String>(),
       datacards: json['datacards'].cast<String>(),
       key: json['key'],
+      token: json['token'],
     );
   }
 
@@ -60,6 +63,7 @@ class User {
       'files': files,
       'datacards': datacards,
       'key': key,
+      'token': token,
     };
   }
 
@@ -77,6 +81,7 @@ class User {
       recentlyViewed: [],
       files: [],
       datacards: [],
+      token: '',
     );
   }
 }

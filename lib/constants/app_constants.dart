@@ -22,6 +22,7 @@ class AppConstants {
   static String port = "";
   static String protocol = "";
   static String apiKey = "";
+  static String fcmKey = "";
 
   static const String uploadFilePath = '/api/upload/file';
   static const String requestFilePath = '/api/request/file';
