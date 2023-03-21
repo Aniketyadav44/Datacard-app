@@ -15,6 +15,8 @@ abstract class Routes {
   static const SHARE = _Paths.SHARE;
   static const RECEIVE = _Paths.RECEIVE;
   static const GET_ACCESS = _Paths.GET_ACCESS;
+  static const RECEIVED_DATACARD = _Paths.RECEIVED_DATACARD;
+  static const RECEIVED_DOCUMENT = _Paths.RECEIVED_DOCUMENT;
 }
 
 abstract class _Paths {
@@ -29,4 +31,6 @@ abstract class _Paths {
   static const SHARE = '/share';
   static const RECEIVE = '/receive';
   static const GET_ACCESS = '/get-access';
+  static const RECEIVED_DATACARD = '/received-datacard';
+  static const RECEIVED_DOCUMENT = '/received-document';
 }

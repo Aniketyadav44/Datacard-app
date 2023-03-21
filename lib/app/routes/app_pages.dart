@@ -18,6 +18,10 @@ import 'package:datacard/app/modules/login/bindings/login_binding.dart';
 import 'package:datacard/app/modules/login/views/login_view.dart';
 import 'package:datacard/app/modules/receive/bindings/receive_binding.dart';
 import 'package:datacard/app/modules/receive/views/receive_view.dart';
+import 'package:datacard/app/modules/received_datacard/bindings/received_datacard_binding.dart';
+import 'package:datacard/app/modules/received_datacard/views/received_datacard_view.dart';
+import 'package:datacard/app/modules/received_document/bindings/received_document_binding.dart';
+import 'package:datacard/app/modules/received_document/views/received_document_view.dart';
 import 'package:datacard/app/modules/share/bindings/share_binding.dart';
 import 'package:datacard/app/modules/share/views/share_view.dart';
 import 'package:datacard/app/modules/update/bindings/update_binding.dart';
@@ -85,6 +89,16 @@ class AppPages {
       name: _Paths.GET_ACCESS,
       page: () => GetAccessView(),
       binding: GetAccessBinding(),
+    ),
+    GetPage(
+      name: _Paths.RECEIVED_DATACARD,
+      page: () => ReceivedDatacardView(),
+      binding: ReceivedDatacardBinding(),
+    ),
+    GetPage(
+      name: _Paths.RECEIVED_DOCUMENT,
+      page: () => ReceivedDocumentView(),
+      binding: ReceivedDocumentBinding(),
     ),
   ];
 }

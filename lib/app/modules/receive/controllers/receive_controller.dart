@@ -7,6 +7,7 @@ import 'package:datacard/app/data/models/document_model.dart';
 import 'package:datacard/app/data/models/user_model.dart';
 import 'package:datacard/app/data/providers/request_provider.dart';
 import 'package:datacard/app/modules/receive/views/staging_view.dart';
+import 'package:datacard/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -22,10 +23,13 @@ class ReceiveController extends GetxController {
   var type = "".obs;
   var uid = "".obs;
   var key = "".obs;
+  var sharedTime = "".obs;
 
   Rx<Document> doc = Document.initialize().obs;
   Rx<Datacard> dc = Datacard.initialize().obs;
   Rx<User> sharer = User.initialize().obs;
+
+  Map<String, dynamic> receivedData = {};
 
   var counter = 0.obs;
   Timer? _timer;
@@ -51,6 +55,9 @@ class ReceiveController extends GetxController {
         type.value = dataList[0];
         uid.value = dataList[1];
         key.value = dataList[2];
+        sharedTime.value = dataList[3];
+
+        print("Shared time: ${sharedTime.value}");
 
         loadDetails();
         Get.off(() => StagingView());
@@ -107,7 +114,7 @@ class ReceiveController extends GetxController {
 
   requestAccess(ReceiveController receiveController) async {
     startTimer();
-    var data = await RequestProvider().request(
+    receivedData = await RequestProvider().request(
       type.value,
       uid.value,
       doc.value,
@@ -116,8 +123,8 @@ class ReceiveController extends GetxController {
       key.value,
       receiveController,
     );
-    print(data);
-    if (data != {} && !data.containsKey("error")) {
+
+    if (receivedData != {} && !receivedData.containsKey("error")) {
       _timer!.cancel();
       counter.value = 0;
       //turning back the access of data to false
@@ -126,7 +133,13 @@ class ReceiveController extends GetxController {
           .collection(collectionName)
           .doc(uid.value)
           .update({'access': false});
-      print(data);
+
+      Get.lazyPut(() => ReceiveController());
+      if (type.value == "dc") {
+        Get.offAllNamed(Routes.RECEIVED_DATACARD, arguments: [receivedData]);
+      } else {
+        Get.offAllNamed(Routes.RECEIVED_DOCUMENT, arguments: [receivedData]);
+      }
     }
   }
 
@@ -138,5 +151,6 @@ class ReceiveController extends GetxController {
   @override
   void onClose() {
     qrViewController!.dispose();
+    _timer!.cancel();
   }
 }

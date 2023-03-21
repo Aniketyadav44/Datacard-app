@@ -17,7 +17,11 @@ class FileView extends GetView<FileController> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () {
-        Get.offAllNamed(Routes.HOME);
+        if (fileController.isReceived.value) {
+          Get.back();
+        } else {
+          Get.offAllNamed(Routes.HOME);
+        }
         File(fileController.fileLoc.value).deleteSync();
         return Future.value(false);
       },
@@ -29,7 +33,13 @@ class FileView extends GetView<FileController> {
               color: Colors.white,
               size: 30,
             ),
-            onPressed: () => Get.offAllNamed(Routes.HOME),
+            onPressed: () {
+              if (fileController.isReceived.value) {
+                Get.back();
+              } else {
+                Get.offAllNamed(Routes.HOME);
+              }
+            },
           ),
           title: Obx(() => Text(fileController.documentName.value)),
           centerTitle: true,

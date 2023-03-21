@@ -102,7 +102,7 @@ class RequestProvider {
           reqParam: fileUID,
         },
       );
-      print("The response is: ${response.data}");
+
       data = response.data;
     } catch (e) {
       print("error: $e");

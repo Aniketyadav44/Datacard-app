@@ -60,4 +60,10 @@ class DatacardProvider {
       snackPosition: SnackPosition.BOTTOM,
     );
   }
+
+  Future<Map<String, dynamic>> getDatacard(String uid) async {
+    DocumentSnapshot dcSnapshot =
+        await FirebaseFirestore.instance.collection("datacards").doc(uid).get();
+    return dcSnapshot.data() as Map<String, dynamic>;
+  }
 }

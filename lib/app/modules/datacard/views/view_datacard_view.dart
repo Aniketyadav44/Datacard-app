@@ -118,7 +118,7 @@ class ViewDatacardView extends GetView {
                             ),
                           )
                         : ListView.builder(
-                            scrollDirection: Axis.vertical,
+                            physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             itemCount: datacardController
                                 .datacardDocsList.value.length,

@@ -12,24 +12,36 @@ class FileController extends GetxController {
   var fileCID = "".obs;
   var fileText = "".obs;
   var fileLoc = "".obs;
+  var isReceived = false.obs;
   @override
   void onInit() {
     super.onInit();
+    final List args = Get.arguments;
+    if (args.isNotEmpty) {
+      isReceived(true);
+      documentName.value = args[0];
+      documentType.value = args[1];
+      fileCID.value = args[2];
+    }
     fetchFile();
   }
 
   void fetchFile() async {
     loading.value = true;
-    var docUID = Get.arguments[0];
-    DocumentSnapshot documentSnapshot =
-        await FirebaseFirestore.instance.collection("files").doc(docUID).get();
-    Map<String, dynamic> fileData =
-        documentSnapshot.data() as Map<String, dynamic>;
-    documentName.value = fileData["name"];
-    documentType.value = fileData["type"];
+    if (fileCID.value == "") {
+      var docUID = Get.arguments[0];
+      DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+          .collection("files")
+          .doc(docUID)
+          .get();
+      Map<String, dynamic> fileData =
+          documentSnapshot.data() as Map<String, dynamic>;
+      documentName.value = fileData["name"];
+      documentType.value = fileData["type"];
 
-    fileCID.value =
-        await DocumentProvider().getDocumentCID(fileData["encryptedCID"]);
+      fileCID.value =
+          await DocumentProvider().getDocumentCID(fileData["encryptedCID"]);
+    }
 
     if (documentType == "text") {
       fileText.value = await DocumentProvider().getTextDocument(fileCID.value);

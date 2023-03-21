@@ -97,4 +97,11 @@ class UserProvider {
     updateController.loading.value = false;
     Get.offAllNamed(Routes.HOME);
   }
+
+  //get user details by passing uid
+  Future<userModel.User> getUserByUID(String uid) async {
+    DocumentSnapshot user =
+        await FirebaseFirestore.instance.collection("users").doc(uid).get();
+    return userModel.User.fromJson(user.data() as Map<String, dynamic>);
+  }
 }
