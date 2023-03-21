@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -6,6 +7,7 @@ import 'package:datacard/app/data/models/document_model.dart';
 import 'package:datacard/app/data/models/user_model.dart';
 import 'package:datacard/app/data/providers/request_provider.dart';
 import 'package:datacard/app/modules/receive/views/staging_view.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
@@ -15,6 +17,7 @@ class ReceiveController extends GetxController {
   var loading = false.obs;
   var message = "Scan QR to Receive".obs;
   var msgSize = 20.obs;
+  var reqLoading = false.obs;
 
   var type = "".obs;
   var uid = "".obs;
@@ -23,6 +26,10 @@ class ReceiveController extends GetxController {
   Rx<Document> doc = Document.initialize().obs;
   Rx<Datacard> dc = Datacard.initialize().obs;
   Rx<User> sharer = User.initialize().obs;
+
+  var counter = 0.obs;
+  Timer? _timer;
+  var timeMsg = "Requesting for file...".obs;
 
   @override
   void onInit() {
@@ -78,8 +85,49 @@ class ReceiveController extends GetxController {
     loading(false);
   }
 
-  requestAccess() {
-    RequestProvider().request(type.value, uid.value, sharer.value.token);
+  startTimer() {
+    counter.value = 59;
+    timeMsg.value = "Requesting for file...";
+    const oneSec = const Duration(seconds: 1);
+    _timer = new Timer.periodic(oneSec, (timer) {
+      if (counter.value == 0) {
+        _timer!.cancel();
+        Get.snackbar(
+          "Timed Out",
+          "Your request timed out!",
+          colorText: Colors.white,
+          snackPosition: SnackPosition.BOTTOM,
+        );
+        timeMsg.value = "Request timed out!, please try again.";
+      } else {
+        counter.value = counter.value - 1;
+      }
+    });
+  }
+
+  requestAccess(ReceiveController receiveController) async {
+    startTimer();
+    var data = await RequestProvider().request(
+      type.value,
+      uid.value,
+      doc.value,
+      dc.value,
+      sharer.value.token,
+      key.value,
+      receiveController,
+    );
+    print(data);
+    if (data != {} && !data.containsKey("error")) {
+      _timer!.cancel();
+      counter.value = 0;
+      //turning back the access of data to false
+      var collectionName = type.value == "dc" ? "datacards" : "files";
+      await FirebaseFirestore.instance
+          .collection(collectionName)
+          .doc(uid.value)
+          .update({'access': false});
+      print(data);
+    }
   }
 
   @override

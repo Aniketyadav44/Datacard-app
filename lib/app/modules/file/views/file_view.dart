@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:datacard/app/routes/app_pages.dart';
 import 'package:datacard/app/widgets/loading_widget.dart';
 import 'package:datacard/constants/app_constants.dart';
@@ -41,8 +42,16 @@ class FileView extends GetView<FileController> {
                     padding: AppConstants.appPadding,
                     child: fileController.documentType.value == "image"
                         ? Center(
-                            child: Image.network(
-                                "https://ipfs.io/ipfs/${fileController.fileCID}"),
+                            child: CachedNetworkImage(
+                              imageUrl:
+                                  "https://ipfs.io/ipfs/${fileController.fileCID}",
+                              placeholder: (context, url) =>
+                                  CircularProgressIndicator(
+                                color: Colors.white,
+                              ),
+                              errorWidget: (context, url, error) =>
+                                  Icon(Icons.error),
+                            ),
                           )
                         : fileController.documentType.value == "text"
                             ? Center(

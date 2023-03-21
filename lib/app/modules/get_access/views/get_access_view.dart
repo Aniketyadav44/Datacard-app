@@ -94,33 +94,42 @@ class GetAccessView extends GetView<GetAccessController> {
                           height: 56,
                           child: ElevatedButton(
                             onPressed: () {
-                              getAccessController.authorize();
+                              if (!getAccessController.accessLoading.value) {
+                                getAccessController.authorize();
+                              }
                             },
                             style: ElevatedButton.styleFrom(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(30),
                               ),
-                              backgroundColor: ColorConstants.secondaryColor,
+                              backgroundColor:
+                                  getAccessController.accessLoading.value
+                                      ? ColorConstants.secondaryDarkColor
+                                      : ColorConstants.secondaryColor,
                             ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.lock_open,
-                                  color: Colors.white,
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
+                            child: getAccessController.accessLoading.value
+                                ? CircularProgressIndicator(
+                                    color: Colors.white,
+                                  )
+                                : Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.lock_open,
+                                        color: Colors.white,
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        "Authorize",
+                                      ),
+                                    ],
                                   ),
-                                  "Authorize",
-                                ),
-                              ],
-                            ),
                           ),
                         )
                       ],

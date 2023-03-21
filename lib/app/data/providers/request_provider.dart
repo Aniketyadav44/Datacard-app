@@ -1,11 +1,20 @@
 import 'dart:convert';
 
+import 'package:datacard/app/data/models/datacard_model.dart';
+import 'package:datacard/app/data/models/document_model.dart';
 import 'package:datacard/constants/app_constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart' as dioo;
+
+import '../../modules/receive/controllers/receive_controller.dart';
 
 class RequestProvider {
-  void sendPushMessage(
+  dioo.Dio dio = dioo.Dio();
+
+  Future<void> sendPushMessage(
     String body,
     String title,
     String token,
@@ -47,8 +56,60 @@ class RequestProvider {
     }
   }
 
-  request(String type, String fileUID, String token) async {
-    sendPushMessage("A document has been requested", "Document requested!",
-        token, type, fileUID);
+  Future<Map<String, dynamic>> request(
+    String type,
+    String fileUID,
+    Document doc,
+    Datacard dc,
+    String token,
+    String ownerKey,
+    ReceiveController receiveController,
+  ) async {
+    String requestType = type == "dc" ? "Data Card" : "Document";
+    String fileName = type == "dc" ? dc.name : doc.name;
+
+    receiveController.reqLoading(true);
+
+    //sending notification to owner
+    await sendPushMessage("Your $requestType \"$fileName\" has been requested!",
+        "$requestType requested!", token, type, fileUID);
+
+    Get.snackbar(
+      "Requested",
+      "Request for $fileName has been sent successfully!",
+      colorText: Colors.white,
+      snackPosition: SnackPosition.BOTTOM,
+    );
+
+    receiveController.timeMsg.value =
+        "Please wait for the owner to grant access!";
+
+    //sending request to backend
+    Map<String, dynamic> data = {};
+    try {
+      var path = type == "dc"
+          ? AppConstants.requestDataCardPath
+          : AppConstants.requestFilePath;
+      var link =
+          "${AppConstants.protocol}://${AppConstants.domain}:${AppConstants.port}$path";
+      dio.options.headers["x-api-key"] = AppConstants.apiKey;
+      var reqParam = type == "dc" ? "dataCardUID" : "docUID";
+
+      final response = await dio.post(
+        link,
+        data: {
+          "secretKey": ownerKey,
+          reqParam: fileUID,
+        },
+      );
+      print("The response is: ${response.data}");
+      data = response.data;
+    } catch (e) {
+      print("error: $e");
+    }
+
+    receiveController.reqLoading(false);
+
+    return data;
   }
 }

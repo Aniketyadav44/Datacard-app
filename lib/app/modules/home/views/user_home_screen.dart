@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:datacard/app/data/models/user_model.dart';
 import 'package:datacard/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
@@ -49,8 +50,13 @@ class UserHomeView extends StatelessWidget {
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(100),
-                      child: Image.network(
-                        user.photoUrl,
+                      child: CachedNetworkImage(
+                        imageUrl: user.photoUrl,
+                        placeholder: (context, url) =>
+                            CircularProgressIndicator(
+                          color: Colors.white,
+                        ),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
                         width: Get.width * 0.2,
                         height: Get.width * 0.2,
                         fit: BoxFit.cover,

@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 
+import '../../routes/app_pages.dart';
+
 class FCMProvider with ChangeNotifier {
   static BuildContext? _context;
 
@@ -18,8 +20,12 @@ class FCMProvider with ChangeNotifier {
     var uidDataString = data["uidData"];
     var uidDataList = uidDataString.split('.');
     // 0 -> data type, 1 -> file uid, 2 -> requester uid
-    Get.toNamed(data["screen"],
-        arguments: [uidDataList[0], uidDataList[1], uidDataList[2]]);
+    Get.offAllNamed(Routes.LOCK, arguments: [
+      data["screen"],
+      uidDataList[0],
+      uidDataList[1],
+      uidDataList[2],
+    ]);
   }
 
   static Map<String, dynamic> convertPayload(String payload) {

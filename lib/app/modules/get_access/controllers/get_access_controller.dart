@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:datacard/app/routes/app_pages.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,6 +14,7 @@ class GetAccessController extends GetxController {
   var reqUID = "".obs;
 
   var loading = false.obs;
+  var accessLoading = false.obs;
 
   Rx<Document> doc = Document.initialize().obs;
   Rx<Datacard> dc = Datacard.initialize().obs;
@@ -62,7 +64,22 @@ class GetAccessController extends GetxController {
         colorText: Colors.white,
         snackPosition: SnackPosition.BOTTOM,
       );
-    } else {}
+    } else {
+      accessLoading(true);
+      var collectionName = type.value == "dc" ? "datacards" : "files";
+      await FirebaseFirestore.instance
+          .collection(collectionName)
+          .doc(dataUID.value)
+          .update({'access': true});
+      Get.offAllNamed(Routes.HOME);
+      Get.snackbar(
+        "Access Granted",
+        "Access has been granted to ${requester.value.name} successfully!",
+        colorText: Colors.white,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      accessLoading(false);
+    }
   }
 
   @override

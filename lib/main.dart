@@ -69,8 +69,12 @@ class _MyAppState extends State<MyApp> {
         var uidDataString = message.data["uidData"];
         var uidDataList = uidDataString.split('.');
         // 0 -> data type, 1 -> file uid, 2 -> requester uid
-        Get.toNamed(message.data["screen"],
-            arguments: [uidDataList[0], uidDataList[1], uidDataList[2]]);
+        Get.offAllNamed(Routes.LOCK, arguments: [
+          message.data["screen"],
+          uidDataList[0],
+          uidDataList[1],
+          uidDataList[2],
+        ]);
       }
     });
   }
