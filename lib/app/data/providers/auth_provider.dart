@@ -15,10 +15,10 @@ import 'package:get/get.dart';
 
 class AuthProvider {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-  LoginController loginController = Get.find<LoginController>();
 
   //verify otp function when user enters otp
   verifyOTP(String otp, BuildContext context) async {
+    LoginController loginController = Get.find<LoginController>();
     PhoneAuthCredential credential = PhoneAuthProvider.credential(
       verificationId: loginController.verificationID,
       smsCode: otp,
@@ -58,6 +58,7 @@ class AuthProvider {
 
   //register new user in firesotre
   registerUser() async {
+    LoginController loginController = Get.find<LoginController>();
     loginController.loading.value = true;
     String imageLink = AppConstants.profileImage;
     if (loginController.imageSelected.value) {
@@ -108,6 +109,7 @@ class AuthProvider {
 
   //funciton to login with phone
   loginWithPhone(String phoneNumber, BuildContext context) async {
+    LoginController loginController = Get.find<LoginController>();
     firebaseAuth.verifyPhoneNumber(
       phoneNumber: phoneNumber,
       timeout: Duration(seconds: 60),

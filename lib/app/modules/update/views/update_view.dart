@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:datacard/constants/color_constants.dart';
 import 'package:flutter/material.dart';
 
@@ -65,8 +66,14 @@ class UpdateView extends GetView<UpdateController> {
                                         height: Get.width * 0.5,
                                         fit: BoxFit.cover,
                                       )
-                                    : Image.network(
-                                        updateController.imageLink,
+                                    : CachedNetworkImage(
+                                        imageUrl: updateController.imageLink,
+                                        placeholder: (context, url) =>
+                                            CircularProgressIndicator(
+                                          color: Colors.white,
+                                        ),
+                                        errorWidget: (context, url, error) =>
+                                            Icon(Icons.error),
                                         width: Get.width * 0.5,
                                         height: Get.width * 0.5,
                                         fit: BoxFit.cover,

@@ -83,7 +83,7 @@ class LoginController extends GetxController {
   signinUser(BuildContext context) {
     AuthProvider authProvider = AuthProvider();
 
-    if (phoneController.text.length < 10) {
+    if (phoneController.text.length != 10) {
       Get.snackbar(
         "Invalid",
         "Please enter a valid phone number!",
@@ -116,8 +116,8 @@ class LoginController extends GetxController {
   //logout function
   logoutUser() {
     AuthProvider authProvider = AuthProvider();
-    authProvider.logout();
     Get.offAllNamed(Routes.LOGIN);
+    authProvider.logout();
   }
 
   @override

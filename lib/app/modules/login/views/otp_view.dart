@@ -116,6 +116,7 @@ class OtpView extends GetView {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 30),
                               child: PinCodeTextField(
+                                autoDisposeControllers: false,
                                 appContext: context,
                                 length: 6,
                                 onChanged: (String value) {},
