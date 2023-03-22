@@ -1,4 +1,5 @@
 import 'package:datacard/app/modules/document/views/add_document_view.dart';
+import 'package:datacard/app/modules/document/views/edit_document_view.dart';
 import 'package:datacard/app/modules/document/views/view_document_view.dart';
 import 'package:datacard/app/modules/home/controllers/home_controller.dart';
 import 'package:datacard/app/routes/app_pages.dart';
@@ -15,6 +16,7 @@ import '../bindings/document_binding.dart';
 import '../controllers/document_controller.dart';
 
 class DocumentView extends GetView<DocumentController> {
+  DocumentController documentController = Get.find<DocumentController>();
   HomeController homeController = Get.find<HomeController>();
   @override
   Widget build(BuildContext context) {
@@ -59,9 +61,16 @@ class DocumentView extends GetView<DocumentController> {
                               Get.toNamed(Routes.SHARE,
                                   arguments: ["doc", doc]);
                             },
-                            onEditTap: () {},
+                            onEditTap: () {
+                              documentController.nameController.text = doc.name;
+                              documentController.descriptionController.text =
+                                  doc.description;
+                              documentController.editingDocument = doc;
+                              Get.to(() => EditDocumentView());
+                            },
                             onTap: () {
-                              Get.to(ViewDocumentView(), arguments: [doc]);
+                              Get.to(() => ViewDocumentView(),
+                                  arguments: [doc]);
                             },
                           );
                         },
@@ -74,6 +83,8 @@ class DocumentView extends GetView<DocumentController> {
       floatingActionButton: CustomFloatingButton(
         icon: Icons.add,
         onPressed: () {
+          documentController.nameController.text = "";
+          documentController.descriptionController.text = "";
           Get.to(() => AddDocumentView(), binding: DocumentBinding());
         },
       ),

@@ -1,7 +1,10 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:datacard/app/data/models/document_model.dart';
 import 'package:datacard/app/data/providers/document_provider.dart';
+import 'package:datacard/app/data/providers/user_provider.dart';
+import 'package:datacard/app/modules/home/controllers/home_controller.dart';
 import 'package:datacard/app/routes/app_pages.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -17,12 +20,16 @@ class DocumentController extends GetxController {
   RxString uploadFileName = "".obs;
   RxString uploadFileSize = "".obs;
 
+  Document editingDocument = Document.initialize();
+
   var uploadingMessage = "".obs;
 
   late String fileType;
   var isTextFileTypeSelected = false.obs;
   var isImageFileTypeSelected = false.obs;
   var isPDFFileTypeSelected = false.obs;
+
+  HomeController homeController = Get.find<HomeController>();
 
   void selectTextChip() {
     isTextFileTypeSelected(true);
@@ -131,8 +138,46 @@ class DocumentController extends GetxController {
     }
   }
 
+  //function to view document
   void viewDocument(String uid) async {
     Get.toNamed(Routes.LOCK, arguments: [Routes.FILE, uid]);
+  }
+
+  //function to edit document
+  void editDocument() async {
+    if (nameController.text.isEmpty) {
+      Get.snackbar(
+        "Enter Name",
+        "Please enter name of the document!",
+        colorText: Colors.white,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    } else if (descriptionController.text.isEmpty) {
+      Get.snackbar(
+        "Enter Description",
+        "Please enter description of the document!",
+        colorText: Colors.white,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    } else {
+      loading(true);
+      await DocumentProvider().editDocument(
+        editingDocument.uid,
+        nameController.text,
+        descriptionController.text,
+      );
+      homeController.userDocuments.value =
+          await UserProvider().fetchUserDocuments();
+
+      loading(false);
+      Get.back();
+      Get.snackbar(
+        "Document Edited",
+        "The document has been edited successfully!",
+        colorText: Colors.white,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
   }
 
   @override

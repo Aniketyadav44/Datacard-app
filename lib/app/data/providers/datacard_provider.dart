@@ -61,6 +61,19 @@ class DatacardProvider {
     );
   }
 
+  Future editDatacard(
+    String uid,
+    String name,
+    String desc,
+    List<String> files,
+  ) async {
+    await FirebaseFirestore.instance.collection("datacards").doc(uid).update({
+      'name': name,
+      'description': desc,
+      'files': files,
+    });
+  }
+
   Future<Map<String, dynamic>> getDatacard(String uid) async {
     DocumentSnapshot dcSnapshot =
         await FirebaseFirestore.instance.collection("datacards").doc(uid).get();

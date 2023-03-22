@@ -1,5 +1,6 @@
 import 'package:datacard/app/data/models/datacard_model.dart';
 import 'package:datacard/app/modules/datacard/views/add_datacard_view.dart';
+import 'package:datacard/app/modules/datacard/views/edit_datacard_view.dart';
 import 'package:datacard/app/modules/datacard/views/view_datacard_view.dart';
 import 'package:datacard/app/modules/home/controllers/home_controller.dart';
 import 'package:datacard/app/widgets/datacard_tile.dart';
@@ -56,7 +57,15 @@ class DatacardView extends GetView<DatacardController> {
                               homeController.userDatacards.value[index];
                           return DatacardTile(
                             datacard: dc,
-                            onEditTap: () {},
+                            onEditTap: () {
+                              datacardController.nameController.text = dc.name;
+                              datacardController.descriptionController.text =
+                                  dc.description;
+                              datacardController.selectedDocs.value = dc.files;
+                              datacardController.editingDatacard = dc;
+
+                              Get.to(() => EditDatacardView());
+                            },
                             onShareTap: () {
                               Get.toNamed(Routes.SHARE, arguments: ["dc", dc]);
                             },
@@ -76,6 +85,9 @@ class DatacardView extends GetView<DatacardController> {
       floatingActionButton: CustomFloatingButton(
         icon: Icons.add,
         onPressed: () {
+          datacardController.nameController.text = "";
+          datacardController.descriptionController.text = "";
+
           Get.to(() => AddDatacardView());
         },
       ),

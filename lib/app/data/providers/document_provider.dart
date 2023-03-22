@@ -109,6 +109,13 @@ class DocumentProvider {
     return "";
   }
 
+  Future editDocument(String uid, String name, String desc) async {
+    await FirebaseFirestore.instance.collection("files").doc(uid).update({
+      'name': name,
+      'description': desc,
+    });
+  }
+
   Future<Map<String, dynamic>> getDocument(String uid) async {
     DocumentSnapshot docSnapshot =
         await FirebaseFirestore.instance.collection("files").doc(uid).get();
