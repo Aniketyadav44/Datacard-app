@@ -78,7 +78,7 @@ class UserHomeView extends StatelessWidget {
                           height: 5,
                         ),
                         Text(
-                          user.uid,
+                          user.aadharNumber,
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             color: ColorConstants.secondaryTextColor,

@@ -59,7 +59,7 @@ class UserTile extends StatelessWidget {
               SizedBox(
                 width: Get.width * 0.5,
                 child: Text(
-                  user.uid,
+                  user.aadharNumber,
                   maxLines: 3,
                   style: TextStyle(
                     fontSize: 12,

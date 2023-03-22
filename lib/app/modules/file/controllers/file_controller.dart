@@ -17,7 +17,7 @@ class FileController extends GetxController {
   void onInit() {
     super.onInit();
     final List args = Get.arguments;
-    if (args.isNotEmpty) {
+    if (args.length > 1) {
       isReceived(true);
       documentName.value = args[0];
       documentType.value = args[1];

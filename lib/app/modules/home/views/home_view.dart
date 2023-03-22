@@ -14,18 +14,34 @@ class HomeView extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Obx(() => PageView(
-              controller: homeController.pageController,
-              children: [
-                MyDataView(),
-                UserHomeView(
-                  user: homeController.user.value,
-                ),
-                SettingsView(),
-              ],
-            )),
+    return WillPopScope(
+      onWillPop: () async {
+        if (homeController.pageController.page == 0) {
+          homeController.pageController.animateToPage(1,
+              duration: const Duration(milliseconds: 400),
+              curve: Curves.linear);
+          return false;
+        } else if (homeController.pageController.page == 2) {
+          homeController.pageController.animateToPage(1,
+              duration: const Duration(milliseconds: 400),
+              curve: Curves.linear);
+          return false;
+        }
+        return true;
+      },
+      child: Scaffold(
+        body: SafeArea(
+          child: Obx(() => PageView(
+                controller: homeController.pageController,
+                children: [
+                  MyDataView(),
+                  UserHomeView(
+                    user: homeController.user.value,
+                  ),
+                  SettingsView(),
+                ],
+              )),
+        ),
       ),
     );
   }

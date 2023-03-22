@@ -1,4 +1,6 @@
+import 'package:datacard/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../widgets/custom_button.dart';
 
@@ -31,8 +33,8 @@ class ShareDialog extends StatelessWidget {
             ),
             CustomButton(
               onPressed: () {
-                Navigator.pop(context);
-                // Get.to(() => SearchDocumentScreen());
+                Navigator.of(context).pop();
+                Get.toNamed(Routes.DOCUMENT);
               },
               text: "Share Documents",
               isBoldText: false,
@@ -43,8 +45,8 @@ class ShareDialog extends StatelessWidget {
             ),
             CustomButton(
               onPressed: () {
-                Navigator.pop(context);
-                // Get.to(() => DataCardsScreen());
+                Navigator.of(context).pop();
+                Get.toNamed(Routes.DATACARD);
               },
               text: "Share Data Card",
               isBoldText: false,
