@@ -51,6 +51,7 @@ class LoadController extends GetxController {
     var serverData = serverDoc.data() as Map<String, dynamic>;
     AppConstants.apiKey = serverData["api-key"];
     AppConstants.fcmKey = serverData["fcm-key"];
+    AppConstants.serverTimout = serverData["server-timeout"];
   }
 
   //get notification permission

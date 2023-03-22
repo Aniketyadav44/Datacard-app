@@ -77,7 +77,7 @@ class UsageInformation extends StatelessWidget {
           const Padding(
             padding: EdgeInsets.only(left: 5.0),
             child: Text(
-              "1.Scan the sender's QR code.\n2.Request for access.\n3.Authorize by selecting number.",
+              "1.Scan the sender's QR code.\n2.Request for access.\n3.Authorize by granting access.",
               style: TextStyle(
                 fontSize: 13,
                 color: ColorConstants.secondaryTextColor,

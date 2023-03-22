@@ -8,14 +8,81 @@ import 'package:intl/intl.dart';
 import '../../../../constants/app_constants.dart';
 import '../../../../constants/color_constants.dart';
 import '../../../data/models/document_model.dart';
+import '../../../routes/app_pages.dart';
+import '../../../widgets/custom_button.dart';
 import '../../../widgets/document_tile.dart';
 import '../../../widgets/logo.dart';
+import 'edit_datacard_view.dart';
 
 class ViewDatacardView extends GetView {
   DatacardController datacardController = Get.find<DatacardController>();
   @override
   Widget build(BuildContext context) {
     Datacard datacard = Get.arguments[0];
+
+    more() {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return Dialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Container(
+                padding: const EdgeInsets.all(20),
+                height: Get.height * 0.3,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CustomButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        Get.toNamed(Routes.SHARE, arguments: ["dc", datacard]);
+                      },
+                      text: "Share Datacard",
+                      isBoldText: false,
+                      height: 52,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    CustomButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        datacardController.nameController.text = datacard.name;
+                        datacardController.descriptionController.text =
+                            datacard.description;
+                        datacardController.selectedDocs.value = datacard.files;
+                        datacardController.editingDatacard = datacard;
+                        datacardController.ifFromDialog = true;
+
+                        Get.to(() => EditDatacardView());
+                      },
+                      text: "Update Datacard",
+                      isBoldText: false,
+                      height: 52,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    CustomButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        datacardController.deleteDatacard(
+                            context, datacard.uid);
+                      },
+                      text: "Delete Datacard",
+                      isBoldText: false,
+                      height: 52,
+                    ),
+                  ],
+                ),
+              ),
+            );
+          });
+    }
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Obx(
@@ -44,20 +111,42 @@ class ViewDatacardView extends GetView {
                         height: 30,
                       ),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            datacard.name,
-                            style: TextStyle(
-                              fontSize: 32,
-                              fontWeight: FontWeight.bold,
+                          SizedBox(
+                            width: Get.width * 0.75,
+                            child: Row(
+                              children: [
+                                Text(
+                                  datacard.name,
+                                  style: TextStyle(
+                                    fontSize: 32,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Flexible(
+                                  child: Container(
+                                    margin: EdgeInsets.only(
+                                        top: Get.height * 0.018),
+                                    child: Text(
+                                      "in Data Cards",
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(top: Get.height * 0.018),
-                            child: Text("in Data Cards"),
+                          IconButton(
+                            onPressed: more,
+                            icon: Icon(
+                              Icons.more_vert_outlined,
+                              color: Colors.white,
+                              size: 35,
+                            ),
                           ),
                         ],
                       ),

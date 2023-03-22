@@ -22,8 +22,14 @@ import 'package:datacard/app/modules/received_datacard/bindings/received_datacar
 import 'package:datacard/app/modules/received_datacard/views/received_datacard_view.dart';
 import 'package:datacard/app/modules/received_document/bindings/received_document_binding.dart';
 import 'package:datacard/app/modules/received_document/views/received_document_view.dart';
+import 'package:datacard/app/modules/received_history/bindings/received_history_binding.dart';
+import 'package:datacard/app/modules/received_history/views/received_history_view.dart';
 import 'package:datacard/app/modules/share/bindings/share_binding.dart';
 import 'package:datacard/app/modules/share/views/share_view.dart';
+import 'package:datacard/app/modules/shared_history/bindings/shared_history_binding.dart';
+import 'package:datacard/app/modules/shared_history/views/shared_history_view.dart';
+import 'package:datacard/app/modules/timout/bindings/timout_binding.dart';
+import 'package:datacard/app/modules/timout/views/timout_view.dart';
 import 'package:datacard/app/modules/update/bindings/update_binding.dart';
 import 'package:datacard/app/modules/update/views/update_view.dart';
 
@@ -99,6 +105,21 @@ class AppPages {
       name: _Paths.RECEIVED_DOCUMENT,
       page: () => ReceivedDocumentView(),
       binding: ReceivedDocumentBinding(),
+    ),
+    GetPage(
+      name: _Paths.TIMOUT,
+      page: () => TimoutView(),
+      binding: TimoutBinding(),
+    ),
+    GetPage(
+      name: _Paths.SHARED_HISTORY,
+      page: () => SharedHistoryView(),
+      binding: SharedHistoryBinding(),
+    ),
+    GetPage(
+      name: _Paths.RECEIVED_HISTORY,
+      page: () => ReceivedHistoryView(),
+      binding: ReceivedHistoryBinding(),
     ),
   ];
 }

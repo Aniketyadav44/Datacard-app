@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:path/path.dart';
 
+import '../../../widgets/custom_button.dart';
+
 class DocumentController extends GetxController {
   var loading = false.obs;
   TextEditingController nameController = TextEditingController();
@@ -21,6 +23,8 @@ class DocumentController extends GetxController {
   RxString uploadFileSize = "".obs;
 
   Document editingDocument = Document.initialize();
+
+  var ifFromDialog = false;
 
   var uploadingMessage = "".obs;
 
@@ -171,6 +175,10 @@ class DocumentController extends GetxController {
 
       loading(false);
       Get.back();
+      if (ifFromDialog) {
+        Get.back();
+        ifFromDialog = false;
+      }
       Get.snackbar(
         "Document Edited",
         "The document has been edited successfully!",
@@ -178,6 +186,74 @@ class DocumentController extends GetxController {
         snackPosition: SnackPosition.BOTTOM,
       );
     }
+  }
+
+  void deleteDocument(BuildContext context, String uid) async {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Dialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Container(
+              padding: const EdgeInsets.all(20),
+              height: Get.height * 0.35,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Center(
+                    child: const Text(
+                      "Do you want to delete this document?",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 22,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  CustomButton(
+                    onPressed: () async {
+                      Navigator.of(context).pop();
+                      loading(true);
+                      await DocumentProvider().deleteDocument(uid);
+
+                      List<String> filesList = homeController.user.value.files;
+                      filesList.removeWhere((element) => element == uid);
+                      await UserProvider().updateUserData("files", filesList);
+
+                      homeController.user.value =
+                          await UserProvider().fetchUser();
+                      homeController.userDocuments.value =
+                          await UserProvider().fetchUserDocuments();
+                      loading(false);
+                      Get.back();
+                    },
+                    text: "Yes",
+                    isBoldText: false,
+                    height: 52,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  CustomButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    text: "No",
+                    isBoldText: false,
+                    height: 52,
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
   }
 
   @override

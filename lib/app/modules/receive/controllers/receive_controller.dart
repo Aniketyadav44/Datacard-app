@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:datacard/app/data/models/datacard_model.dart';
 import 'package:datacard/app/data/models/document_model.dart';
 import 'package:datacard/app/data/models/user_model.dart';
+import 'package:datacard/app/data/providers/history_provider.dart';
 import 'package:datacard/app/data/providers/request_provider.dart';
 import 'package:datacard/app/modules/receive/views/staging_view.dart';
 import 'package:datacard/app/routes/app_pages.dart';
@@ -108,11 +109,20 @@ class ReceiveController extends GetxController {
         timeMsg.value = "Request timed out!, please try again.";
       } else {
         counter.value = counter.value - 1;
+        print(counter.value);
       }
     });
   }
 
   requestAccess(ReceiveController receiveController) async {
+    //check if server is up by pinging to the server
+    loading(true);
+    bool isServerUp = await RequestProvider().pingServer();
+    if (!isServerUp) {
+      loading(false);
+      return;
+    }
+    loading(false);
     startTimer();
     receivedData = await RequestProvider().request(
       type.value,
@@ -134,6 +144,12 @@ class ReceiveController extends GetxController {
           .doc(uid.value)
           .update({'access': false});
 
+      //registering in received history
+      await HistoryProvider().registerReceived(
+        name: type.value == "dc" ? dc.value.name : doc.value.name,
+        personName: sharer.value.name,
+        fileType: type.value == "dc" ? "Data Card" : "Document",
+      );
       Get.lazyPut(() => ReceiveController());
       if (type.value == "dc") {
         Get.offAllNamed(Routes.RECEIVED_DATACARD, arguments: [receivedData]);

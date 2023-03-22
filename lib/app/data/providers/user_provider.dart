@@ -104,4 +104,14 @@ class UserProvider {
         await FirebaseFirestore.instance.collection("users").doc(uid).get();
     return userModel.User.fromJson(user.data() as Map<String, dynamic>);
   }
+
+  //update user's files
+  Future updateUserData(String category, List<String> data) async {
+    FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    String uid = firebaseAuth.currentUser!.uid;
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(uid)
+        .update({category: data});
+  }
 }

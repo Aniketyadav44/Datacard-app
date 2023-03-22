@@ -14,6 +14,7 @@ class AppConstants {
   static const logoPurple = 'assets/icons/datacard-logo-purple.svg';
   static const logoPurplePng = 'assets/icons/datacard-logo-purple.png';
   static const logoBlack = 'assets/icons/datacard-logo-black.svg';
+  static const errorImg = 'assets/icons/error.svg';
 
   static const profileImage =
       'https://firebasestorage.googleapis.com/v0/b/data-card-dd8ce.appspot.com/o/profile_avatar.png?alt=media&token=a09feeb0-e77d-4dc2-a310-fbdfda84e71d';
@@ -23,11 +24,13 @@ class AppConstants {
   static String protocol = "";
   static String apiKey = "";
   static String fcmKey = "";
+  static String serverTimout = "";
 
   static const String uploadFilePath = '/api/upload/file';
   static const String requestFilePath = '/api/request/file';
   static const String requestDataCardPath = '/api/request/data-card';
   static const String decryptCIDPath = '/api/request/decrypt';
+  static const String pingGetPath = '/';
 
   static BoxDecoration customBoxDecoration = BoxDecoration(
     color: ColorConstants.darkBackgroundColor,

@@ -7,6 +7,8 @@ import 'package:datacard/app/modules/home/controllers/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../widgets/custom_button.dart';
+
 class DatacardController extends GetxController {
   RxList<Document> datacardDocsList = <Document>[].obs;
   var loading = false.obs;
@@ -19,6 +21,9 @@ class DatacardController extends GetxController {
   Datacard editingDatacard = Datacard.initialize();
 
   HomeController homeController = Get.find<HomeController>();
+
+  Rx<Datacard> dc = Datacard.initialize().obs;
+  var ifFromDialog = false;
 
   @override
   void onInit() {
@@ -36,6 +41,7 @@ class DatacardController extends GetxController {
   fetchDatacardDocuments(List<String> docsList) async {
     loading(true);
     datacardDocsList.value = [];
+    print(docsList);
     for (var docUID in docsList) {
       Map<String, dynamic> docData =
           await DocumentProvider().getDocument(docUID);
@@ -113,6 +119,10 @@ class DatacardController extends GetxController {
       loading(false);
       selectedDocs.value = [];
       Get.back();
+      if (ifFromDialog) {
+        Get.back();
+        ifFromDialog = false;
+      }
       Get.snackbar(
         "Datacard Edited",
         "The datacard has been edited successfully!",
@@ -120,6 +130,76 @@ class DatacardController extends GetxController {
         snackPosition: SnackPosition.BOTTOM,
       );
     }
+  }
+
+  void deleteDatacard(BuildContext context, String uid) async {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Dialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Container(
+              padding: const EdgeInsets.all(20),
+              height: Get.height * 0.35,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Center(
+                    child: const Text(
+                      "Do you want to delete this datacard?",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 22,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  CustomButton(
+                    onPressed: () async {
+                      Navigator.of(context).pop();
+                      loading(true);
+                      await DatacardProvider().deleteDatacard(uid);
+
+                      List<String> datacardsList =
+                          homeController.user.value.datacards;
+                      datacardsList.removeWhere((element) => element == uid);
+                      await UserProvider()
+                          .updateUserData("datacards", datacardsList);
+
+                      homeController.user.value =
+                          await UserProvider().fetchUser();
+                      homeController.userDatacards.value =
+                          await UserProvider().fetchUserDatacards();
+                      loading(false);
+                      Get.back();
+                    },
+                    text: "Yes",
+                    isBoldText: false,
+                    height: 52,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  CustomButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    text: "No",
+                    isBoldText: false,
+                    height: 52,
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
   }
 
   @override

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:datacard/app/data/models/datacard_model.dart';
+import 'package:datacard/app/data/providers/user_provider.dart';
 import 'package:datacard/app/modules/datacard/controllers/datacard_controller.dart';
 import 'package:datacard/app/modules/home/controllers/home_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -28,7 +29,7 @@ class DatacardProvider {
         FirebaseFirestore.instance.collection("datacards");
 
     //updating uid of file on firestore
-    await datacardRef.add(data).then((value) {
+    await datacardRef.add(data).then((value) async {
       datacardRef.doc(value.id).update({'uid': value.id});
       Datacard newDatacard = Datacard(
         name: name,
@@ -46,10 +47,11 @@ class DatacardProvider {
       //updating user's details
       List<String> userDatacards = homeController.user.value.datacards;
       userDatacards.add(value.id);
-      FirebaseFirestore.instance
+      await FirebaseFirestore.instance
           .collection("users")
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .update({'datacards': userDatacards});
+      homeController.user.value = await UserProvider().fetchUser();
     });
     datacardController.loading(false);
     Get.back();
@@ -72,6 +74,10 @@ class DatacardProvider {
       'description': desc,
       'files': files,
     });
+  }
+
+  Future deleteDatacard(String uid) async {
+    await FirebaseFirestore.instance.collection("datacards").doc(uid).delete();
   }
 
   Future<Map<String, dynamic>> getDatacard(String uid) async {

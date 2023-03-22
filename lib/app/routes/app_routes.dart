@@ -17,6 +17,9 @@ abstract class Routes {
   static const GET_ACCESS = _Paths.GET_ACCESS;
   static const RECEIVED_DATACARD = _Paths.RECEIVED_DATACARD;
   static const RECEIVED_DOCUMENT = _Paths.RECEIVED_DOCUMENT;
+  static const TIMOUT = _Paths.TIMOUT;
+  static const SHARED_HISTORY = _Paths.SHARED_HISTORY;
+  static const RECEIVED_HISTORY = _Paths.RECEIVED_HISTORY;
 }
 
 abstract class _Paths {
@@ -33,4 +36,7 @@ abstract class _Paths {
   static const GET_ACCESS = '/get-access';
   static const RECEIVED_DATACARD = '/received-datacard';
   static const RECEIVED_DOCUMENT = '/received-document';
+  static const TIMOUT = '/timout';
+  static const SHARED_HISTORY = '/shared-history';
+  static const RECEIVED_HISTORY = '/received-history';
 }

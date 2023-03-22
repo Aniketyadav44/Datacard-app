@@ -10,6 +10,7 @@ import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart' as dioo;
 
 import '../../modules/receive/controllers/receive_controller.dart';
+import '../../routes/app_pages.dart';
 
 class RequestProvider {
   dioo.Dio dio = dioo.Dio();
@@ -111,5 +112,28 @@ class RequestProvider {
     receiveController.reqLoading(false);
 
     return data;
+  }
+
+  Future<bool> pingServer() async {
+    try {
+      var link =
+          "${AppConstants.protocol}://${AppConstants.domain}:${AppConstants.port}${AppConstants.pingGetPath}";
+      dio.options.headers["x-api-key"] = AppConstants.apiKey;
+      dio.options.connectTimeout =
+          Duration(seconds: int.parse(AppConstants.serverTimout));
+
+      final response = await dio.get(
+        link,
+      );
+      return true;
+    } on dioo.DioError catch (e) {
+      if (e.type == dioo.DioErrorType.connectionTimeout) {
+        Get.toNamed(Routes.TIMOUT);
+        return false;
+      }
+    } catch (e) {
+      print(e);
+    }
+    return false;
   }
 }

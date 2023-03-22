@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:datacard/app/data/providers/history_provider.dart';
 import 'package:datacard/app/routes/app_pages.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -71,6 +72,12 @@ class GetAccessController extends GetxController {
           .collection(collectionName)
           .doc(dataUID.value)
           .update({'access': true});
+      //register this in sharing history of this user
+      await HistoryProvider().registerShared(
+        name: type.value == "dc" ? dc.value.name : doc.value.name,
+        personName: requester.value.name,
+        fileType: type.value == "dc" ? "Data Card" : "Document",
+      );
       Get.offAllNamed(Routes.HOME);
       Get.snackbar(
         "Access Granted",

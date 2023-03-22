@@ -49,7 +49,9 @@ class MyDataView extends StatelessWidget {
             CustomListTile(
               icon: Icons.history,
               text: "Shared History",
-              onPressed: () {},
+              onPressed: () {
+                Get.toNamed(Routes.SHARED_HISTORY);
+              },
             ),
             const SizedBox(
               height: 20,
@@ -57,7 +59,9 @@ class MyDataView extends StatelessWidget {
             CustomListTile(
               icon: Icons.history,
               text: "Received History",
-              onPressed: () {},
+              onPressed: () {
+                Get.toNamed(Routes.RECEIVED_HISTORY);
+              },
             ),
           ],
         ),
