@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:datacard/app/data/providers/document_provider.dart';
 import 'package:datacard/app/data/providers/user_provider.dart';
-import 'package:datacard/app/modules/home/controllers/home_controller.dart';
+import '../../../data/models/user_model.dart' as userModel;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
@@ -45,11 +45,9 @@ class FileController extends GetxController {
       fileCID.value =
           await DocumentProvider().getDocumentCID(fileData["encryptedCID"]);
 
-      HomeController homeController = Get.find<HomeController>();
-
       //registering in user's recently viewed documents
-      List<String> userRecentlyViewed =
-          homeController.user.value.recentlyViewed;
+      userModel.User thisUser = await UserProvider().fetchUser();
+      List<String> userRecentlyViewed = thisUser.recentlyViewed;
       userRecentlyViewed.insert(0, docUID);
       List<String> newList = [];
       if (userRecentlyViewed.length > 5) {
@@ -63,7 +61,6 @@ class FileController extends GetxController {
           .collection("users")
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .update({'recentlyViewed': newList});
-      homeController.user.value = await UserProvider().fetchUser();
     }
 
     if (documentType == "text") {
