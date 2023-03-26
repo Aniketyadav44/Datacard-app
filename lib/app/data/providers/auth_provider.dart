@@ -47,7 +47,7 @@ class AuthProvider {
         .get();
     if (!userDoc.exists) {
       loginController.loading.value = false;
-      Get.off(() => RegisterView());
+      Get.offAll(() => RegisterView());
     } else {
       var data = userDoc.data() as Map<String, dynamic>;
       LocalStorage().setKey(data['key']);

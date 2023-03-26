@@ -45,6 +45,7 @@ class DatacardController extends GetxController {
     for (var docUID in docsList) {
       Map<String, dynamic> docData =
           await DocumentProvider().getDocument(docUID);
+
       datacardDocsList.add(Document.fromJson(docData));
     }
     loading(false);
@@ -73,7 +74,7 @@ class DatacardController extends GetxController {
         snackPosition: SnackPosition.BOTTOM,
       );
     } else {
-      DatacardProvider().createDatacard(
+      await DatacardProvider().createDatacard(
         name: nameController.text,
         description: descriptionController.text,
         files: selectedDocs,

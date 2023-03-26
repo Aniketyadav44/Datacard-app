@@ -1,3 +1,4 @@
+import 'package:datacard/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -84,7 +85,9 @@ class LoginView extends GetView<LoginController> {
                               ),
                             ),
                             GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                Get.toNamed(Routes.TERMS);
+                              },
                               child: const Text(
                                 "Agree to Terms and Conditions",
                                 style: TextStyle(

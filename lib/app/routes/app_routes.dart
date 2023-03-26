@@ -20,6 +20,9 @@ abstract class Routes {
   static const TIMOUT = _Paths.TIMOUT;
   static const SHARED_HISTORY = _Paths.SHARED_HISTORY;
   static const RECEIVED_HISTORY = _Paths.RECEIVED_HISTORY;
+  static const FAQ = _Paths.FAQ;
+  static const VERIFICATION = _Paths.VERIFICATION;
+  static const TERMS = _Paths.TERMS;
 }
 
 abstract class _Paths {
@@ -39,4 +42,7 @@ abstract class _Paths {
   static const TIMOUT = '/timout';
   static const SHARED_HISTORY = '/shared-history';
   static const RECEIVED_HISTORY = '/received-history';
+  static const FAQ = '/faq';
+  static const VERIFICATION = '/verification';
+  static const TERMS = '/terms';
 }

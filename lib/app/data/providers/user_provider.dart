@@ -37,6 +37,21 @@ class UserProvider {
     return docList;
   }
 
+  //get user's recently viewed documents
+  Future<List<docModel.Document>> fetchUserRecentlyViewedDocuments() async {
+    HomeController homeController = Get.find<HomeController>();
+    List<docModel.Document> docList = [];
+    for (var docUID in homeController.user.value.recentlyViewed) {
+      DocumentSnapshot doc = await FirebaseFirestore.instance
+          .collection("files")
+          .doc(docUID)
+          .get();
+      docList
+          .add(docModel.Document.fromJson(doc.data() as Map<String, dynamic>));
+    }
+    return docList;
+  }
+
   //get user's datacards
   Future<List<Datacard>> fetchUserDatacards() async {
     HomeController homeController = Get.find<HomeController>();

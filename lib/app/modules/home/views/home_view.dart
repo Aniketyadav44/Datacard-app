@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
+import '../../../widgets/logo.dart';
 import '../controllers/home_controller.dart';
 import 'settings_view.dart';
 
@@ -31,16 +32,32 @@ class HomeView extends GetView<HomeController> {
       },
       child: Scaffold(
         body: SafeArea(
-          child: Obx(() => PageView(
-                controller: homeController.pageController,
-                children: [
-                  MyDataView(),
-                  UserHomeView(
-                    user: homeController.user.value,
+          child: Obx(() => homeController.loading.value
+              ? Container(
+                  height: Get.height,
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Logo(),
+                        const SizedBox(
+                          height: 40,
+                        ),
+                        CircularProgressIndicator(),
+                      ],
+                    ),
                   ),
-                  SettingsView(),
-                ],
-              )),
+                )
+              : PageView(
+                  controller: homeController.pageController,
+                  children: [
+                    MyDataView(),
+                    UserHomeView(
+                      user: homeController.user.value,
+                    ),
+                    SettingsView(),
+                  ],
+                )),
         ),
       ),
     );

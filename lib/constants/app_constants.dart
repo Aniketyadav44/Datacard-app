@@ -25,6 +25,7 @@ class AppConstants {
   static String apiKey = "";
   static String fcmKey = "";
   static String serverTimout = "";
+  static List faq = [];
 
   static const String uploadFilePath = '/api/upload/file';
   static const String requestFilePath = '/api/request/file';

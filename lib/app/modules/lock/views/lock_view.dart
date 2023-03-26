@@ -64,6 +64,7 @@ class LockView extends GetView<LockController> {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 30),
                             child: PinCodeTextField(
+                              autoDisposeControllers: false,
                               appContext: context,
                               length: 4,
                               onChanged: (String value) {},
@@ -97,6 +98,22 @@ class LockView extends GetView<LockController> {
                               lockController.verifyKey();
                             },
                             text: "Continue",
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              lockController.requestKeyReset();
+                            },
+                            child: Text(
+                              "Request to reset secret key",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                decoration: TextDecoration.underline,
+                              ),
+                            ),
                           ),
                           const SizedBox(
                             height: 30,

@@ -10,9 +10,11 @@ class HomeController extends GetxController {
   final pageController = PageController(initialPage: 1);
 
   final count = 0.obs;
+  var loading = false.obs;
   Rx<User> user = User.initialize().obs;
   RxList userDocuments = [].obs;
   RxList userDatacards = [].obs;
+  RxList userRecentlyViewed = [].obs;
   @override
   void onInit() {
     super.onInit();
@@ -20,10 +22,14 @@ class HomeController extends GetxController {
   }
 
   fetchUser() async {
+    loading(true);
     UserProvider userProvider = UserProvider();
     user.value = await userProvider.fetchUser();
     userDocuments.value = await userProvider.fetchUserDocuments();
     userDatacards.value = await userProvider.fetchUserDatacards();
+    userRecentlyViewed.value =
+        await userProvider.fetchUserRecentlyViewedDocuments();
+    loading(false);
   }
 
   @override

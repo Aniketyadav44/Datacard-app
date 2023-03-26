@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:datacard/app/data/models/document_model.dart';
+import 'package:datacard/app/data/providers/datacard_provider.dart';
 import 'package:datacard/app/data/providers/document_provider.dart';
 import 'package:datacard/app/data/providers/user_provider.dart';
 import 'package:datacard/app/modules/home/controllers/home_controller.dart';
@@ -226,6 +227,8 @@ class DocumentController extends GetxController {
                       List<String> filesList = homeController.user.value.files;
                       filesList.removeWhere((element) => element == uid);
                       await UserProvider().updateUserData("files", filesList);
+
+                      await DatacardProvider().updateDatacardForDeletedDoc(uid);
 
                       homeController.user.value =
                           await UserProvider().fetchUser();

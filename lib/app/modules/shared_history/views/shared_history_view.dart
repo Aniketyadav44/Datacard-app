@@ -46,9 +46,6 @@ class SharedHistoryView extends GetView<SharedHistoryController> {
                           ),
                           overflow: TextOverflow.ellipsis,
                         ),
-                        const SizedBox(
-                          height: 30,
-                        ),
                         const Divider(
                           height: 30,
                           color: ColorConstants.borderColor,

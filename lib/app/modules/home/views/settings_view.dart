@@ -36,7 +36,9 @@ class SettingsView extends StatelessWidget {
             CustomListTile(
               icon: Icons.verified_user,
               text: "Verify",
-              onPressed: () {},
+              onPressed: () {
+                Get.toNamed(Routes.VERIFICATION);
+              },
             ),
             const SizedBox(
               height: 20,
@@ -54,7 +56,9 @@ class SettingsView extends StatelessWidget {
             CustomListTile(
               icon: Icons.question_answer,
               text: "FAQs",
-              onPressed: () {},
+              onPressed: () {
+                Get.toNamed(Routes.FAQ);
+              },
             ),
             const SizedBox(
               height: 20,

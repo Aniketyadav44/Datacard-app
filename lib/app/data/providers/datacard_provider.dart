@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class DatacardProvider {
-  createDatacard({
+  Future<void> createDatacard({
     required String name,
     required String description,
     required List<String> files,
@@ -84,5 +84,19 @@ class DatacardProvider {
     DocumentSnapshot dcSnapshot =
         await FirebaseFirestore.instance.collection("datacards").doc(uid).get();
     return dcSnapshot.data() as Map<String, dynamic>;
+  }
+
+  Future<void> updateDatacardForDeletedDoc(String docUID) async {
+    QuerySnapshot snap = await FirebaseFirestore.instance
+        .collection("datacards")
+        .where('files', arrayContains: ['docUID']).get();
+    snap.docs.forEach((element) async {
+      List<String> files = element['files'];
+      files.removeWhere((element) => element == docUID);
+      await FirebaseFirestore.instance
+          .collection("datacards")
+          .doc(element['uid'])
+          .update({'files': files});
+    });
   }
 }

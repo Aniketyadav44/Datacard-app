@@ -7,7 +7,6 @@ import 'package:get/get.dart';
 import '../../../../constants/app_constants.dart';
 import '../../../../constants/color_constants.dart';
 import '../../../widgets/custom_floating_button.dart';
-import '../widgets/most_commonly_used.dart';
 import '../widgets/recently_viewed.dart';
 import '../widgets/share_dialog.dart';
 import '../widgets/usage_info.dart';
@@ -177,10 +176,10 @@ class UserHomeView extends StatelessWidget {
               const SizedBox(
                 height: 40,
               ),
-              MostCommonlyUsed(),
-              const SizedBox(
-                height: 40,
-              ),
+              // MostCommonlyUsed(),
+              // const SizedBox(
+              //   height: 40,
+              // ),
               const UsageInformation(),
             ],
           ),

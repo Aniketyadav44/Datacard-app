@@ -52,6 +52,12 @@ class LoadController extends GetxController {
     AppConstants.apiKey = serverData["api-key"];
     AppConstants.fcmKey = serverData["fcm-key"];
     AppConstants.serverTimout = serverData["server-timeout"];
+
+    DocumentSnapshot appDoc =
+        await firebaseFirestore.collection("config").doc("app").get();
+    var appData = appDoc.data() as Map<String, dynamic>;
+
+    AppConstants.faq = appData["faqs"];
   }
 
   //get notification permission

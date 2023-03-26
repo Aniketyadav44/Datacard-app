@@ -1,8 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:datacard/app/data/local_storage.dart';
 import 'package:datacard/app/routes/app_pages.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+
+import '../../../data/models/admin_request_model.dart';
 
 class LockController extends GetxController {
   TextEditingController lockPassController = TextEditingController();
@@ -40,6 +44,37 @@ class LockController extends GetxController {
         Get.offAllNamed(destRoute, arguments: [uid]);
       }
     }
+  }
+
+  requestKeyReset() async {
+    loading(true);
+
+    AdminRequest adminRequest = AdminRequest(
+      requesterUID: FirebaseAuth.instance.currentUser!.uid,
+      requestTitle: "Reset Key",
+      requestDesc: "Request for secret key reset.",
+      requestTime: DateTime.now(),
+      uid: '',
+    );
+
+    await FirebaseFirestore.instance
+        .collection("admin")
+        .add(adminRequest.toJson())
+        .then((value) async {
+      await FirebaseFirestore.instance
+          .collection("admin")
+          .doc(value.id)
+          .update({'uid': value.id});
+      Get.back();
+      Get.snackbar(
+        "Reset Request Sent",
+        "Our team will contact you soon to reset your secret key!",
+        colorText: Colors.white,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    });
+
+    loading(false);
   }
 
   @override

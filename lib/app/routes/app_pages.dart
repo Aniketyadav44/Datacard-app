@@ -4,6 +4,8 @@ import 'package:datacard/app/modules/datacard/bindings/datacard_binding.dart';
 import 'package:datacard/app/modules/datacard/views/datacard_view.dart';
 import 'package:datacard/app/modules/document/bindings/document_binding.dart';
 import 'package:datacard/app/modules/document/views/document_view.dart';
+import 'package:datacard/app/modules/faq/bindings/faq_binding.dart';
+import 'package:datacard/app/modules/faq/views/faq_view.dart';
 import 'package:datacard/app/modules/file/bindings/file_binding.dart';
 import 'package:datacard/app/modules/file/views/file_view.dart';
 import 'package:datacard/app/modules/get_access/bindings/get_access_binding.dart';
@@ -28,10 +30,14 @@ import 'package:datacard/app/modules/share/bindings/share_binding.dart';
 import 'package:datacard/app/modules/share/views/share_view.dart';
 import 'package:datacard/app/modules/shared_history/bindings/shared_history_binding.dart';
 import 'package:datacard/app/modules/shared_history/views/shared_history_view.dart';
+import 'package:datacard/app/modules/terms/bindings/terms_binding.dart';
+import 'package:datacard/app/modules/terms/views/terms_view.dart';
 import 'package:datacard/app/modules/timout/bindings/timout_binding.dart';
 import 'package:datacard/app/modules/timout/views/timout_view.dart';
 import 'package:datacard/app/modules/update/bindings/update_binding.dart';
 import 'package:datacard/app/modules/update/views/update_view.dart';
+import 'package:datacard/app/modules/verification/bindings/verification_binding.dart';
+import 'package:datacard/app/modules/verification/views/verification_view.dart';
 
 part 'app_routes.dart';
 
@@ -120,6 +126,21 @@ class AppPages {
       name: _Paths.RECEIVED_HISTORY,
       page: () => ReceivedHistoryView(),
       binding: ReceivedHistoryBinding(),
+    ),
+    GetPage(
+      name: _Paths.FAQ,
+      page: () => FaqView(),
+      binding: FaqBinding(),
+    ),
+    GetPage(
+      name: _Paths.VERIFICATION,
+      page: () => VerificationView(),
+      binding: VerificationBinding(),
+    ),
+    GetPage(
+      name: _Paths.TERMS,
+      page: () => TermsView(),
+      binding: TermsBinding(),
     ),
   ];
 }

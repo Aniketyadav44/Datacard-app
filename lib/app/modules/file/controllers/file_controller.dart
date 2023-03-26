@@ -2,6 +2,9 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:datacard/app/data/providers/document_provider.dart';
+import 'package:datacard/app/data/providers/user_provider.dart';
+import 'package:datacard/app/modules/home/controllers/home_controller.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -41,6 +44,26 @@ class FileController extends GetxController {
 
       fileCID.value =
           await DocumentProvider().getDocumentCID(fileData["encryptedCID"]);
+
+      HomeController homeController = Get.find<HomeController>();
+
+      //registering in user's recently viewed documents
+      List<String> userRecentlyViewed =
+          homeController.user.value.recentlyViewed;
+      userRecentlyViewed.insert(0, docUID);
+      List<String> newList = [];
+      if (userRecentlyViewed.length > 5) {
+        for (int i = 0; i < 5; i++) {
+          newList.add(userRecentlyViewed[i]);
+        }
+      } else {
+        newList = userRecentlyViewed;
+      }
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .update({'recentlyViewed': newList});
+      homeController.user.value = await UserProvider().fetchUser();
     }
 
     if (documentType == "text") {
@@ -57,6 +80,7 @@ class FileController extends GetxController {
       await file.writeAsBytes(fileDataBytes as List<int>, flush: true);
       fileLoc.value = "${dir.path}/$filename";
     }
+
     loading.value = false;
   }
 
