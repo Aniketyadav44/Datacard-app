@@ -119,7 +119,4 @@ class LoginController extends GetxController {
     Get.offAllNamed(Routes.LOGIN);
     authProvider.logout();
   }
-
-  @override
-  void onClose() {}
 }
